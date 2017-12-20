@@ -930,6 +930,48 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function') {
+    return;
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = __webpack_require__(47);
+} else {
+  module.exports = __webpack_require__(50);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 exports.__esModule = true;
@@ -992,7 +1034,7 @@ var createPath = exports.createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1060,7 +1102,7 @@ var createPath = exports.createPath = function createPath(location) {
 };
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1284,7 +1326,7 @@ var self = module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1308,7 +1350,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1377,48 +1419,6 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function') {
-    return;
-  }
-  if (process.env.NODE_ENV !== 'production') {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
-  }
-}
-
-if (process.env.NODE_ENV === 'production') {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = __webpack_require__(47);
-} else {
-  module.exports = __webpack_require__(50);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1438,7 +1438,7 @@ var _valueEqual = __webpack_require__(32);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(10);
+var _PathUtils = __webpack_require__(11);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1530,7 +1530,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(7);
-  var warning = __webpack_require__(13);
+  var warning = __webpack_require__(14);
   var ReactPropTypesSecret = __webpack_require__(17);
   var loggedTypeFailures = {};
 }
@@ -1665,7 +1665,7 @@ var _valueEqual = __webpack_require__(32);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(9);
+var _PathUtils = __webpack_require__(10);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -3155,7 +3155,7 @@ var logger = __webpack_require__(94);
 var parse = __webpack_require__(95);
 var timer = __webpack_require__(96);
 var ws = global.WebSocket || global.MozWebSocket || __webpack_require__(97);
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(12);
 
 // Client instance..
 var client = function client(opts) {
@@ -4791,7 +4791,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(14);
+var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -4800,6 +4800,10 @@ var _reactRouterDom = __webpack_require__(59);
 var _DrawOverlay = __webpack_require__(86);
 
 var _DrawOverlay2 = _interopRequireDefault(_DrawOverlay);
+
+var _SpeakOverlay = __webpack_require__(118);
+
+var _SpeakOverlay2 = _interopRequireDefault(_SpeakOverlay);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4863,7 +4867,7 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var f = __webpack_require__(8),
-    p = __webpack_require__(12);__webpack_require__(7);var r = __webpack_require__(6);
+    p = __webpack_require__(13);__webpack_require__(7);var r = __webpack_require__(6);
 function t(a) {
   for (var b = arguments.length - 1, d = "Minified React error #" + a + "; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d" + a, e = 0; e < b; e++) {
     d += "\x26args[]\x3d" + encodeURIComponent(arguments[e + 1]);
@@ -4997,8 +5001,8 @@ if (process.env.NODE_ENV !== "production") {
     'use strict';
 
     var objectAssign$1 = __webpack_require__(8);
-    var require$$0 = __webpack_require__(13);
-    var emptyObject = __webpack_require__(12);
+    var require$$0 = __webpack_require__(14);
+    var emptyObject = __webpack_require__(13);
     var invariant = __webpack_require__(7);
     var emptyFunction = __webpack_require__(6);
     var checkPropTypes = __webpack_require__(16);
@@ -6700,7 +6704,7 @@ var aa = __webpack_require__(0);__webpack_require__(7);var l = __webpack_require
     n = __webpack_require__(8),
     ba = __webpack_require__(26),
     ca = __webpack_require__(6),
-    da = __webpack_require__(12),
+    da = __webpack_require__(13),
     ea = __webpack_require__(27),
     fa = __webpack_require__(28),
     ha = __webpack_require__(29),
@@ -9148,7 +9152,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var react=__webpack_require__(0);var invariant=__webpack_require__(7);var ExecutionEnvironment=__webpack_require__(18);var _assign=__webpack_require__(8);var EventListener=__webpack_require__(26);var require$$0=__webpack_require__(13);var hyphenateStyleName=__webpack_require__(51);var emptyFunction=__webpack_require__(6);var camelizeStyleName=__webpack_require__(53);var performanceNow=__webpack_require__(55);var propTypes=__webpack_require__(3);var emptyObject=__webpack_require__(12);var checkPropTypes=__webpack_require__(16);var shallowEqual=__webpack_require__(27);var containsNode=__webpack_require__(28);var focusNode=__webpack_require__(29);var getActiveElement=__webpack_require__(30);/**
+ */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var react=__webpack_require__(0);var invariant=__webpack_require__(7);var ExecutionEnvironment=__webpack_require__(18);var _assign=__webpack_require__(8);var EventListener=__webpack_require__(26);var require$$0=__webpack_require__(14);var hyphenateStyleName=__webpack_require__(51);var emptyFunction=__webpack_require__(6);var camelizeStyleName=__webpack_require__(53);var performanceNow=__webpack_require__(55);var propTypes=__webpack_require__(3);var emptyObject=__webpack_require__(13);var checkPropTypes=__webpack_require__(16);var shallowEqual=__webpack_require__(27);var containsNode=__webpack_require__(28);var focusNode=__webpack_require__(29);var getActiveElement=__webpack_require__(30);/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
  * This source code is licensed under the MIT license found in the
@@ -12778,7 +12782,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var emptyFunction = __webpack_require__(6);
 var invariant = __webpack_require__(7);
-var warning = __webpack_require__(13);
+var warning = __webpack_require__(14);
 var assign = __webpack_require__(8);
 
 var ReactPropTypesSecret = __webpack_require__(17);
@@ -13554,7 +13558,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(19);
 
-var _PathUtils = __webpack_require__(9);
+var _PathUtils = __webpack_require__(10);
 
 var _createTransitionManager = __webpack_require__(20);
 
@@ -13964,7 +13968,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(19);
 
-var _PathUtils = __webpack_require__(9);
+var _PathUtils = __webpack_require__(10);
 
 var _createTransitionManager = __webpack_require__(20);
 
@@ -14417,7 +14421,7 @@ var _warning = __webpack_require__(2);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(9);
+var _PathUtils = __webpack_require__(10);
 
 var _LocationUtils = __webpack_require__(19);
 
@@ -15445,7 +15449,7 @@ Object.defineProperty(exports, 'locationsAreEqual', {
   }
 });
 
-var _PathUtils = __webpack_require__(10);
+var _PathUtils = __webpack_require__(11);
 
 Object.defineProperty(exports, 'parsePath', {
   enumerable: true,
@@ -15501,7 +15505,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(15);
 
-var _PathUtils = __webpack_require__(10);
+var _PathUtils = __webpack_require__(11);
 
 var _createTransitionManager = __webpack_require__(24);
 
@@ -15825,7 +15829,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(15);
 
-var _PathUtils = __webpack_require__(10);
+var _PathUtils = __webpack_require__(11);
 
 var _createTransitionManager = __webpack_require__(24);
 
@@ -16160,7 +16164,7 @@ var _warning = __webpack_require__(2);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(10);
+var _PathUtils = __webpack_require__(11);
 
 var _LocationUtils = __webpack_require__(15);
 
@@ -16382,7 +16386,7 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _PathUtils = __webpack_require__(9);
+var _PathUtils = __webpack_require__(10);
 
 var _Router = __webpack_require__(22);
 
@@ -16908,7 +16912,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(14);
+var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -16938,9 +16942,10 @@ var DrawOverlay = function (_React$Component) {
 
         _this.state = {
             channel: props.match.params["name"],
-            ingredients: [],
             burgers: 0,
-            locked: false
+            locked: false,
+            ingredients: [],
+            burgerBar: []
         };
 
         _this.twitch = new _Twitch2.default(props.match.params["name"]);
@@ -16952,18 +16957,115 @@ var DrawOverlay = function (_React$Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            var parse = [{ test: /bread|bun/, img: function img() {
+            var parse = [{
+                test: /bread|bun/i,
+                img: function img() {
                     return self.state.ingredients.length == 0 ? "bottom_bun" : "top_bun";
-                } }, { test: /tomatoes|tomato/, img: function img() {
+                }
+            }, {
+                test: /tomatoes|tomato/i,
+                img: function img() {
                     return "tomato";
-                } }, { test: /meat|mince|pattie/, img: function img() {
+                }
+            }, {
+                test: /meat/i,
+                img: function img() {
                     return "meat";
-                } }, { test: /cheese|dairy/, img: function img() {
+                }
+            }, {
+                test: /cheese/i,
+                img: function img() {
                     return "cheese";
-                } }];
+                }
+            }, {
+                test: /cucumber/i,
+                img: function img() {
+                    return "cucumber";
+                }
+            }, {
+                test: /salami/i,
+                img: function img() {
+                    return "salami";
+                }
+            }, {
+                test: /bacon/i,
+                img: function img() {
+                    return "bacon";
+                }
+            }, {
+                test: /beetroot/i,
+                img: function img() {
+                    return "beetroot";
+                }
+            }, {
+                test: /lettuce/i,
+                img: function img() {
+                    return "lettuce";
+                }
+            }, {
+                test: /onion/i,
+                img: function img() {
+                    return "onion";
+                }
+            }, {
+                test: /sauce1/i,
+                img: function img() {
+                    return "sauce1";
+                },
+                thin: true
+            }, {
+                test: /sauce2/i,
+                img: function img() {
+                    return "sauce2";
+                },
+                thin: true
+            }, {
+                test: /sauce3/i,
+                img: function img() {
+                    return "sauce3";
+                },
+                thin: true
+            }, {
+                test: /sauce4/i,
+                img: function img() {
+                    return "sauce4";
+                },
+                thin: true
+            }, {
+                test: /sauce5/i,
+                img: function img() {
+                    return "sauce5";
+                },
+                thin: true
+            }, {
+                test: /sauce6/i,
+                img: function img() {
+                    return "sauce6";
+                },
+                thin: true
+            }, {
+                test: /pickles|pickle/i,
+                img: function img() {
+                    return "pickles";
+                }
+            }, {
+                test: /pineapple/i,
+                img: function img() {
+                    return "pineapple";
+                }
+            }, {
+                test: /burger --undo/i,
+                action: function action(ingredients) {
+                    ingredients.splice(0, 1);
+                    _this2.setState({
+                        ingredients: ingredients
+                    });
+                }
+            }];
 
             var self = this;
             self.twitch.chat(function (channel, user, message) {
+                console.log('a');
 
                 var ingredients = self.state.ingredients;
 
@@ -16972,9 +17074,20 @@ var DrawOverlay = function (_React$Component) {
                 }
 
                 parse.forEach(function (element) {
+
                     if (element.test.test(message) && (ingredients.length == 0 && element.img() == "bottom_bun" || ingredients[0])) {
 
-                        ingredients.unshift({ type: element.img() });
+                        if (element.action) {
+                            element.action(ingredients);
+                            return;
+                        }
+
+                        ingredients.unshift({
+                            type: element.img(),
+                            reverse: Math.random() >= 0.5,
+                            thin: !!element.thin
+                        });
+
                         self.setState({ ingredients: ingredients });
                     }
                 }, _this2);
@@ -16982,26 +17095,61 @@ var DrawOverlay = function (_React$Component) {
                 if (ingredients[0] && ingredients[0].type == 'top_bun') {
                     self.setState({ locked: true });
                     setTimeout(function () {
-                        self.setState({ locked: false, ingredients: [], burgers: self.state.burgers + 1 });
+                        self.finishBurger();
                     }, 3000);
                 }
             }, true);
         }
     }, {
+        key: 'finishBurger',
+        value: function finishBurger() {
+            this.state.burgerBar.unshift(this.state.ingredients);
+
+            this.setState({
+                burgerBar: this.state.burgerBar
+            });
+
+            this.setState({
+                locked: false,
+                ingredients: [],
+                burgers: this.state.burgers + 1
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var burgers = this.state.burgers;
+            var ingredients = this.state.ingredients;
+
             return _react2.default.createElement(
                 'div',
-                { id: 'widget-overlay burger-box', className: 'widget chat' },
+                { className: 'burger-overlay' },
                 _react2.default.createElement(
                     'div',
-                    null,
-                    burgers
+                    { id: 'widget-overlay', className: 'widget chat burger-box' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'burger-count' },
+                        burgers,
+                        ' Burgers made'
+                    ),
+                    this.state.ingredients.map(function (item, i) {
+                        return _react2.default.createElement(_Ingredient2.default, { attr: item, key: i, ii: ingredients.length - i, width: '200', percent: '0.08' });
+                    })
                 ),
-                this.state.ingredients.map(function (item, i) {
-                    return _react2.default.createElement(_Ingredient2.default, { attr: item, key: i });
-                })
+                _react2.default.createElement(
+                    'div',
+                    { className: 'burger-bar' },
+                    this.state.burgerBar.map(function (ingredients, i) {
+                        return _react2.default.createElement(
+                            'div',
+                            { className: 'burger-bar-burger', key: 'bbb-' + i },
+                            ingredients.map(function (ingr, kk) {
+                                return _react2.default.createElement(_Ingredient2.default, { attr: ingr, key: 'bbbi-' + kk, ii: ingredients.length - kk, width: '50', percent: '0.08' });
+                            })
+                        );
+                    })
+                )
             );
         }
     }]);
@@ -17038,7 +17186,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(14);
+var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -17210,7 +17358,7 @@ module.exports = g;
 
 
 var request = __webpack_require__(91);
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(12);
 
 var api = function api(options, callback) {
     // Set the url to options.uri or options.url..
@@ -17282,7 +17430,7 @@ module.exports = api;
 "use strict";
 
 
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(12);
 
 // Enable followers-only mode on a channel..
 function followersonly(channel, minutes) {
@@ -18274,7 +18422,7 @@ function isUndefined(arg) {
 "use strict";
 
 
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(12);
 
 var currentLevel = "info";
 var levels = { "trace": 0, "debug": 1, "info": 2, "warn": 3, "error": 4, "fatal": 5
@@ -18333,7 +18481,7 @@ module.exports = {
     ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
     OF SUCH DAMAGE.
 */
-var _ = __webpack_require__(11);
+var _ = __webpack_require__(12);
 
 module.exports = {
     // Parse Twitch badges..
@@ -19468,17 +19616,195 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(14);
+var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Ingredient = function Ingredient(props) {
-    return _react2.default.createElement('img', { height: '100', className: 'ingredient', src: '/app/img/' + props.attr.type + '.svg' });
+    var klss = props.attr.reverse ? "ir ingredient" : "ingredient";
+
+    //console.log(props);
+
+    var style = {
+        zIndex: props.ii,
+        paddingBottom: props.ii * (props.width * props.percent),
+        marginBottom: props.attr.type == "cheese" ? -(props.width * props.percent) : 0
+    };
+
+    return _react2.default.createElement('img', { height: props.width, className: klss, src: '/app/img/' + props.attr.type + '.svg', style: style });
 };
 
 exports.default = Ingredient;
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(9);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SpeakOverlay = function (_React$Component) {
+    _inherits(SpeakOverlay, _React$Component);
+
+    function SpeakOverlay(props) {
+        _classCallCheck(this, SpeakOverlay);
+
+        var _this = _possibleConstructorReturn(this, (SpeakOverlay.__proto__ || Object.getPrototypeOf(SpeakOverlay)).call(this, props));
+
+        _this.state = {
+            channel: props.match.params["name"]
+        };
+        return _this;
+    }
+
+    _createClass(SpeakOverlay, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            var webaudio_tooling_obj = function () {
+
+                var audioContext = new AudioContext();
+
+                console.log("audio is starting up ...");
+
+                var BUFF_SIZE = 16384;
+
+                var audioInput = null,
+                    microphone_stream = null,
+                    gain_node = null,
+                    script_processor_node = null,
+                    script_processor_fft_node = null,
+                    analyserNode = null;
+
+                if (!navigator.getUserMedia) navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+                if (navigator.getUserMedia) {
+
+                    navigator.getUserMedia({ audio: true }, function (stream) {
+                        start_microphone(stream);
+                    }, function (e) {
+                        alert('Error capturing audio.');
+                    });
+                } else {
+                    alert('getUserMedia not supported in this browser.');
+                }
+
+                // ---
+
+                function show_some_data(given_typed_array, num_row_to_display, label) {
+
+                    var size_buffer = given_typed_array.length;
+                    var index = 0;
+                    var max_index = num_row_to_display;
+
+                    console.log("__________ " + label);
+
+                    for (; index < max_index && index < size_buffer; index += 1) {
+
+                        console.log(given_typed_array[index]);
+                    }
+                }
+
+                function process_microphone_buffer(event) {
+
+                    var i, N, inp, microphone_output_buffer;
+
+                    microphone_output_buffer = event.inputBuffer.getChannelData(0); // just mono - 1 channel for now
+
+                    // microphone_output_buffer  <-- this buffer contains current gulp of data size BUFF_SIZE
+
+                    show_some_data(microphone_output_buffer, 5, "from getChannelData");
+                }
+
+                function start_microphone(stream) {
+
+                    gain_node = audioContext.createGain();
+                    gain_node.connect(audioContext.destination);
+
+                    microphone_stream = audioContext.createMediaStreamSource(stream);
+                    microphone_stream.connect(gain_node);
+
+                    script_processor_node = audioContext.createScriptProcessor(BUFF_SIZE, 1, 1);
+                    script_processor_node.onaudioprocess = process_microphone_buffer;
+
+                    microphone_stream.connect(script_processor_node);
+
+                    // --- enable volume control for output speakers
+
+
+                    // --- setup FFT
+
+                    script_processor_fft_node = audioContext.createScriptProcessor(2048, 1, 1);
+                    script_processor_fft_node.connect(gain_node);
+
+                    analyserNode = audioContext.createAnalyser();
+                    analyserNode.smoothingTimeConstant = 0;
+                    analyserNode.fftSize = 2048;
+
+                    microphone_stream.connect(analyserNode);
+
+                    analyserNode.connect(script_processor_fft_node);
+
+                    script_processor_fft_node.onaudioprocess = function () {
+
+                        // get the average for the first channel
+                        var array = new Uint8Array(analyserNode.frequencyBinCount);
+                        analyserNode.getByteFrequencyData(array);
+
+                        // draw the spectrogram
+                        if (microphone_stream.playbackState == microphone_stream.PLAYING_STATE) {
+                            console.log('asd');
+                            //show_some_data(array, 5, "from fft");
+                        }
+                    };
+                }
+            }(); //  webaudio_tooling_obj = function()
+
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: '' },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'asdasd'
+                )
+            );
+        }
+    }]);
+
+    return SpeakOverlay;
+}(_react2.default.Component);
+
+exports.default = SpeakOverlay;
+;
 
 /***/ })
 /******/ ]);

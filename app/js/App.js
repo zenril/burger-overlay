@@ -7,6 +7,7 @@ import {
     Switch
 } from 'react-router-dom';
 import DrawOverlay from './containers/DrawOverlay';
+import SpeakOverlay from './containers/SpeakOverlay';
 
 
 
