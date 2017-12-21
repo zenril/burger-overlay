@@ -1,11 +1,18 @@
 var path = require('path');
 var webpack = require('webpack');
-    
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+
 module.exports = {
-    entry: './app/js/app.js',
+    entry:  {
+        app : './app/js/app.js'
+    },
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'app.bundle.js'
+        filename: 'app.bundle.js',
+        publicPath: '/build/'
     },
     module: {
         loaders: [
@@ -15,6 +22,10 @@ module.exports = {
                 query: {
                     presets: ['env', 'react']
                 }
+            },
+            {
+                test: /\.s?css$/,
+                use: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
             }
         ]
     },
@@ -25,5 +36,15 @@ module.exports = {
         fs: 'empty',
         child_process: 'empty',
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+        
+        new HtmlWebpackPlugin({  // Also generate a test.html
+            filename: '../index.html',
+            template: 'app/template.html',
+            inject:true
+        }),
+        new CleanWebpackPlugin(["public"]),
+        new ExtractTextPlugin("[name].css")
+    ]
 };

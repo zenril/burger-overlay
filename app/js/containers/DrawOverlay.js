@@ -4,6 +4,8 @@ import ReactDom from 'react-dom';
 import Twitch from '../twitch/Twitch.js';
 import Ingredient from '../components/twitch/Ingredient.js';
 
+require("../../sass/app.scss");
+
 export default class DrawOverlay extends React.Component
 {   
     constructor(props) 

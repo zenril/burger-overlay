@@ -1,21 +1,21 @@
-.burger-box {
+html .burger-box {
   position: absolute;
   bottom: 50px;
   left: 50px; }
 
-.ingredient {
+html .ingredient {
   position: absolute;
   left: 0;
   bottom: 0; }
 
-.burger-count {
+html .burger-count {
   font-family: Roboto;
   font-size: 40px;
   margin-bottom: -40px;
   margin-left: -29px;
   text-shadow: 0px 0px 18px white; }
 
-.ir {
+html .ir {
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
@@ -23,17 +23,19 @@
   filter: FlipH;
   -ms-filter: "FlipH"; }
 
-.burger-bar {
+html .burger-bar {
   position: fixed;
   bottom: 0;
   left: 350px;
   right: 0;
   height: 200px; }
 
-.burger-bar-burger {
+html .burger-bar-burger {
   width: 50px;
   position: relative;
   height: 100%;
   float: left;
   margin-left: 17px;
   bottom: 14px; }
+
+/*# sourceMappingURL=app.css.map*/

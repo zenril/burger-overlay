@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/build/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 44);
@@ -4801,7 +4801,7 @@ var _DrawOverlay = __webpack_require__(86);
 
 var _DrawOverlay2 = _interopRequireDefault(_DrawOverlay);
 
-var _SpeakOverlay = __webpack_require__(118);
+var _SpeakOverlay = __webpack_require__(119);
 
 var _SpeakOverlay2 = _interopRequireDefault(_SpeakOverlay);
 
@@ -16932,6 +16932,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+__webpack_require__(118);
+
 var DrawOverlay = function (_React$Component) {
     _inherits(DrawOverlay, _React$Component);
 
@@ -19624,9 +19626,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Ingredient = function Ingredient(props) {
     var klss = props.attr.reverse ? "ir ingredient" : "ingredient";
-
-    //console.log(props);
-
     var style = {
         zIndex: props.ii,
         paddingBottom: props.ii * (props.width * props.percent),
@@ -19640,6 +19639,12 @@ exports.default = Ingredient;
 
 /***/ }),
 /* 118 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
