@@ -20,6 +20,8 @@ export default class DrawOverlay extends React.Component
         };
 
         this.twitch = new Twitch(props.match.params["name"]);
+        
+        this.audio = new Audio('files/nom.ogg');
     }
 
     componentDidMount ()
@@ -171,6 +173,8 @@ export default class DrawOverlay extends React.Component
             ingredients : [],
             burgers : this.state.burgers + 1 
         });
+        
+        this.audio.play();
     }
 
     render ()
