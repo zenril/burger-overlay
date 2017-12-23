@@ -127,8 +127,7 @@ var p = new Parser([
         key : () => ("bun") 
     },
     { 
-        words :["tomatoes","tomato"], 
-        
+        words :["tomatoes","tomato"],         
         key : () => ("tomato") 
     },
     { 
@@ -136,8 +135,12 @@ var p = new Parser([
         key : (found) => (found.verb + "meat") 
     },
     { 
+        words :["egg"], 
+        key : (found) => (found.verb + "egg") 
+    },
+    { 
         words :["cheese"],
-        verb :["american","swiss"],
+        verb :["american","swiss","chedder"],
         key : (found) => (found.verb + "cheese") 
     },
     { 
@@ -145,19 +148,21 @@ var p = new Parser([
         key : () => ("cucumber") 
     },
     { 
-        words :["salami"], 
+        words :["salami", "pepperoni", "chorizo", "sausage"], 
         key : () => ("salami") 
     },
     { 
         words :["bacon"], 
+        verb: ["canadian", "burnt", "american", "good", "raw"],
         key : () => ("bacon") 
     },
     { 
-        words :["beetroot"], 
+        words :["beetroot", "beets"], 
         key : () => ("beetroot") 
     },
     { 
-        words :["lettuce"], 
+        words :["lettuce", "romaine"], 
+        verb: ["iceburg"],
         key : () => ("lettuce") 
     },
     { 
@@ -165,10 +170,24 @@ var p = new Parser([
         verb :["red","white","fried","caramelized", "caramelised"],
         key : (found) => (found.verb + "onion") 
     },
-    { 
-        words :["sauce"], 
-        key : (found) => (found.verb + "sauce")
+    {
+        words :["mustard"],
+        verb:  ["american", "british", "good"],
+        key : (found) => (found.verb + "mustard")
     },
+    {
+        words :["mayo", "mayonaise", "aioli", "ranch"],
+        key : (found) => (found.verb + "mayo")
+    },
+    {
+        words :["ketchup"],
+        key : (found) => (found.verb + "ketchup")
+    },   
+    {
+        words :["sauce"],
+        verb:["bbq", "white", "red", "tomato"],
+        key : (found) => (found.verb + "sauce")
+    },   
     { 
         words :["pickles","pickle"], 
         key : () => ("pickles") 
@@ -189,6 +208,16 @@ var p = new Parser([
             }
         },
         key : () => ("undo") 
+    },
+    {
+        words :["--name"],
+        command: {
+            params : 0,
+            action : (ingredients) => {
+              console.log("Naming is TBD");
+            }
+        },
+        key : () => ("name")
     }
 
 ]);
