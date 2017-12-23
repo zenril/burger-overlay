@@ -6,53 +6,110 @@ class Parser {
     
     }
 
+    regexFind(list, word){
+        let found = word.match(new RegExp(list.join("|"), "i"));
+        if(found) {
+            return found[0];
+        }
+        return null;
+    }
 
     parse(str){
-
-        var parsed = {
-            n : null,
-            keyword : null,
+        let event = {
+            count: 0,
+            key: null,
+            verb: "",
+            word: "",
             command : false
-        };
+        }
 
         var words = str.split(/[ ]*/);
+        //loop through words
         for (var i = 0; i < words.length; i++) {
             var word = array[i];
+            event.command = false;
             
-            word = word.trim();
-            
+            word = word.trim();            
 
             //is number
             if(/\d+/.test(word)){
-                parsed.n = parseInt(word);
+                event.count = parseInt(word);
             }
 
             //is command
             if(/--[a-z-_]*/.test(word)){
-                parsed.command = word
+                event.command = true;
             }
             var cword = word;
+            
+            //loop through keywords to find
             for (var j = 0; j < this.keywords.length; j++) {
                 cword = word;
-                var keyword = this.keywords[j];
-                
+                var keyword = this.keywords[j]; 
 
-                for (var k = 0; k < keyword.tokens.length; k++) {
-                    var token = keyword.tokens[index];
-                    token.split(/[ ]*/).forEach(function(element, l) {
-                        
-                        cword = cword + " " + words[i + 1]; 
-
-                    }, this);
-
+                let foundVerb = this.regexFind(keyword.verb, cword);
+                if(foundVerb){
+                    event.verb = foundVerb;
+                    cword = words[i+1];
                 }
 
-                if(new RegExp([0].join("|"), i).test(word)){
-                    
+                let foundWord = this.regexFind(keyword.words, cword);
+                if(foundWord){
+                    event.word = foundWord;
+                    if(foundVerb){
+                        i++;
+                    }
+                }
+                
+                if(event.word){
+                    event.key = keyword.key(event);
+                    if(word.command){
+                        Parser.triggerCommand(event);
+                    } else {
+                        Parser.triggerKeyword(event);
+                    }
+                    event.keyword = null;
+                    event.command = null;
+                    event.verb = "";
+                    event.word = "";
                 }
             }
-
         };
+    }
+
+    static keywordCBS = [];
+    static commandCBS = [];
+
+    onKeyword( cb ) {
+        Parser.keywordCBS.push(cb);
+        return cb;
+    }
+
+    onCommand( cb ) {
+        Parser.commandCBS.push(cb);
+        return cb;
+    }
+
+    static triggerKeyword(parsed){
+        for (var index = 0; index < Parser.keywordCBS.length; index++) {
+            var element = Parser.keywordCBS[index];
+
+            if(typeof element == 'function'){
+                element(parsed);
+            }
+            
+        }
+    }
+
+    static triggerCommand(parsed){
+        for (var index = 0; index < Parser.commandCBS.length; index++) {
+            var element = Parser.commandCBS[index];
+
+            if(typeof element == 'function'){
+                element(parsed);
+            }
+            
+        }
     }
 
 
@@ -60,87 +117,68 @@ class Parser {
 }
 
 
+
+
+
+
 var p = new Parser([
     { 
-        tokens :["bread","bun"], 
+        words :["bread","bun"], 
         key : () => ("bun") 
     },
     { 
-        tokens :["tomatoes","tomato"], 
+        words :["tomatoes","tomato"], 
+        
         key : () => ("tomato") 
     },
     { 
-        tokens :["meat"], 
-        key : () => ("meat") 
+        words :["meat"], 
+        key : (found) => (found.verb + "meat") 
     },
     { 
-        tokens :["cheese"], 
-        key : () => ("cheese") 
+        words :["cheese"],
+        verb :["american","swiss"],
+        key : (found) => (found.verb + "cheese") 
     },
     { 
-        tokens :["cucumber"], 
+        words :["cucumber"], 
         key : () => ("cucumber") 
     },
     { 
-        tokens :["salami"], 
+        words :["salami"], 
         key : () => ("salami") 
     },
     { 
-        tokens :["bacon"], 
+        words :["bacon"], 
         key : () => ("bacon") 
     },
     { 
-        tokens :["beetroot"], 
+        words :["beetroot"], 
         key : () => ("beetroot") 
     },
     { 
-        tokens :["lettuce"], 
+        words :["lettuce"], 
         key : () => ("lettuce") 
     },
     { 
-        tokens :["onion"], 
-        key : () => ("onion") 
+        words :["onion"],
+        verb :["red","white","fried","caramelized", "caramelised"],
+        key : (found) => (found.verb + "onion") 
     },
     { 
-        tokens :["sauce1"], 
-        key : () => ("sauce1"),
-        thin : true
+        words :["sauce"], 
+        key : (found) => (found.verb + "sauce")
     },
     { 
-        tokens :["sauce2"], 
-        key : () => ("sauce2"),
-        thin : true
-    },
-    { 
-        tokens :["sauce3"], 
-        key : () => ("sauce3"),
-        thin : true
-    },
-    { 
-        tokens :["sauce4"], 
-        key : () => ("sauce4"),
-        thin : true
-    },
-    { 
-        tokens :["sauce5"], 
-        key : () => ("sauce5"),
-        thin : true 
-    },
-    { 
-        tokens :["sauce6"], 
-        key : () => ("sauce6"),
-        thin : true
-    },
-    { 
-        tokens :["pickles","pickle"], 
+        words :["pickles","pickle"], 
         key : () => ("pickles") 
     },
     { 
-        tokens :["pineapple"], 
+        words :["pineapple"], 
         key : () => ("pineapple")
     },
     { 
-        tokens :["--undo"], 
+        words :["--undo"], 
         command: {
             params : 0,
             action : (ingredients) => {
@@ -154,3 +192,5 @@ var p = new Parser([
     }
 
 ]);
+
+export default p;
