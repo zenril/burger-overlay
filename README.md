@@ -10,7 +10,9 @@ Examples of ingredients available are tomato, meat, cheese, onion, pickles
 
   1. You'll need OBS  
   2. Add a webpage overlay with the URL http://twitchchat.aaron-m.co.nz/do/<your_twitch_stream_user_name> 
-     eg. http://twitchchat.aaron-m.co.nz/do/jaxwild
+```
+http://twitchchat.aaron-m.co.nz/do/jaxwild
+```
   3. In your stream chat type 'bun' and a bun should appear on stream. 
 
 ## INSTALL
