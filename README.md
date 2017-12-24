@@ -2,19 +2,18 @@
 
 A burger overlay for twitch
 
-DESCRIPTION
+The burger overlay allows people in twitch chat to build burgers on stream by typing 'bun' and then different ingredients. 
+To complete the burger type 'bun' by itself.
+Examples of ingredients available are tomato, meat, cheese, onion, pickles 
 
-  The burger overlay allows people in twitch chat to build burgers on stream by typing 'bun' and then different ingredients. 
-  To complete the burger type 'bun' by itself.
-  Examples of ingredients available are tomato, meat, cheese, onion, pickles 
-
-QUICKSTART
+## QUICKSTART
 
   1. You'll need OBS  
   2. Add a webpage overlay with the URL http://twitchchat.aaron-m.co.nz/do/<your_twitch_stream_user_name> 
      eg. http://twitchchat.aaron-m.co.nz/do/jaxwild
+  3. In your stream chat type 'bun' and a bun should appear on stream. 
 
-INSTALL
+## INSTALL
  
   To install the code you'll need to setup a webserver and deploy the built source to it.
   Once installed if you go to the URL: http://<yourserver>/do/<twitch_stream_name> it'll load the overlay in your browser.
@@ -23,11 +22,11 @@ INSTALL
   An example install is available at http://twitchchat.aaron-m.co.nz/do/jaxwild
  
 
-CREDITS
+## ACKNOWLEDGEMENTS
 
-  Zenril/Fax - Programmer and Artist
-  WootoSmash - Shitposter and bug finder/suggester
+*  Zenril/Fax - Programmer and Artist
+*  WootoSmash - Shitposter and bug finder/suggester
   
-LICENSE
+## LICENSE
  
   ???
