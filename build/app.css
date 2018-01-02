@@ -3,10 +3,14 @@ html .burger-box {
   bottom: 50px;
   left: 50px; }
 
-html .ingredient {
-  position: absolute;
-  left: 0;
-  bottom: 0; }
+html .ingredient-wrapper {
+  position: relative;
+  display: block;
+  overflow: visible; }
+  html .ingredient-wrapper .ingredient {
+    position: absolute;
+    bottom: 0;
+    display: block; }
 
 html .burger-count {
   font-family: Roboto;
@@ -31,7 +35,7 @@ html .burger-bar {
   height: 200px; }
 
 html .burger-bar-burger {
-  width: 50px;
+  width: 150px;
   position: relative;
   height: 100%;
   float: left;

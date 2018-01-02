@@ -1,3 +1,5 @@
+import Ingredient from '../../models/Ingredient.js';
+
 class Parser {
 
 
@@ -7,6 +9,10 @@ class Parser {
     }
 
     regexFind(list, word){
+        if(!list || !word){
+            return null;
+        }
+
         let found = word.match(new RegExp(list.join("|"), "i"));
         if(found) {
             return found[0];
@@ -14,22 +20,28 @@ class Parser {
         return null;
     }
 
-    parse(str){
+    parse(str, user = null, channel = null){
+
+        if(!str){
+            return;
+        }
+        
+        str = str.toLowerCase();
+
         let event = {
-            count: 0,
+            count: 1,
             key: null,
             verb: "",
             word: "",
-            command : false
+            conf: null
         }
 
-        var words = str.split(/[ ]*/);
+        var words = str.split(/[ ]+/);
         //loop through words
         for (var i = 0; i < words.length; i++) {
-            var word = array[i];
-            event.command = false;
+            var word = words[i];
             
-            word = word.trim();            
+            word = word.trim();
 
             //is number
             if(/\d+/.test(word)){
@@ -37,9 +49,19 @@ class Parser {
             }
 
             //is command
-            if(/--[a-z-_]*/.test(word)){
-                event.command = true;
+            if(/--[a-z]+/.test(word)){
+                
+                Parser.triggerCommand({
+                    word : word,
+                    args : words.slice(i + 1),
+                    user: user
+                });
+                event.verb = "";
+                event.word = "";
+                event.key = "";
+                break;
             }
+
             var cword = word;
             
             //loop through keywords to find
@@ -55,58 +77,83 @@ class Parser {
 
                 let foundWord = this.regexFind(keyword.words, cword);
                 if(foundWord){
+                    
+                    if(typeof keyword.max == 'number'){
+                        event.count  = Math.min(event.count,keyword.max);
+                    }
+
                     event.word = foundWord;
                     if(foundVerb){
-                        i++;
+                        i = i + 1;
                     }
                 }
                 
                 if(event.word){
-                    event.key = keyword.key(event);
-                    if(word.command){
-                        Parser.triggerCommand(event);
-                    } else {
-                        Parser.triggerKeyword(event);
-                    }
-                    event.keyword = null;
-                    event.command = null;
+                    event.conf = keyword;
+                    var e = Object.assign({}, event);
+                    e.key = keyword.key(e);
+                    Parser.triggerKeyword(e);
                     event.verb = "";
                     event.word = "";
+                    event.key = "";
+                    event.count = 1;
+                    break;
                 }
             }
         };
     }
 
-    static keywordCBS = [];
-    static commandCBS = [];
 
-    onKeyword( cb ) {
-        Parser.keywordCBS.push(cb);
-        return cb;
+    onKeyword( a ,b ) {
+        if(!Parser._wordcallback){
+            Parser._wordcallback = [];
+        }
+
+        Parser._wordcallback.push({
+            cb: typeof a == 'string' ? b : a,
+            word: typeof a == 'string' ? a : null
+        });
     }
 
-    onCommand( cb ) {
-        Parser.commandCBS.push(cb);
-        return cb;
+    onCommand( a, b ) {
+        if(!Parser._cmdcallback){
+            Parser._cmdcallback = [];
+        }
+        Parser._cmdcallback.push({
+            cb: typeof a == 'string' ? b : a,
+            word: typeof a == 'string' ? a : null
+        });
     }
 
     static triggerKeyword(parsed){
-        for (var index = 0; index < Parser.keywordCBS.length; index++) {
-            var element = Parser.keywordCBS[index];
+        if(!Parser._wordcallback){
+            Parser._wordcallback = [];
+        }
 
-            if(typeof element == 'function'){
-                element(parsed);
+        for (var index = 0; index < Parser._wordcallback.length; index++) {
+            var element = Parser._wordcallback[index];
+
+            if(typeof element.cb == 'function'){
+                if(!element.word || element.word == parsed.word){
+                    element.cb(parsed);
+                }
             }
             
         }
     }
 
     static triggerCommand(parsed){
-        for (var index = 0; index < Parser.commandCBS.length; index++) {
-            var element = Parser.commandCBS[index];
+        if(!Parser._cmdcallback){
+            Parser._cmdcallback = [];
+        }
 
-            if(typeof element == 'function'){
-                element(parsed);
+        for (var index = 0; index < Parser._cmdcallback.length; index++) {
+            var element = Parser._cmdcallback[index];
+
+            if(typeof element.cb == 'function'){
+                if(!element.word || element.word == parsed.word){
+                    element.cb(parsed);
+                }
             }
             
         }
@@ -121,105 +168,7 @@ class Parser {
 
 
 
-var p = new Parser([
-    { 
-        words :["bread","bun"], 
-        key : () => ("bun") 
-    },
-    { 
-        words :["tomatoes","tomato"],         
-        key : () => ("tomato") 
-    },
-    { 
-        words :["meat"], 
-        key : (found) => (found.verb + "meat") 
-    },
-    { 
-        words :["egg"], 
-        key : (found) => (found.verb + "egg") 
-    },
-    { 
-        words :["cheese"],
-        verb :["american","swiss","chedder"],
-        key : (found) => (found.verb + "cheese") 
-    },
-    { 
-        words :["cucumber"], 
-        key : () => ("cucumber") 
-    },
-    { 
-        words :["salami", "pepperoni", "chorizo", "sausage"], 
-        key : () => ("salami") 
-    },
-    { 
-        words :["bacon"], 
-        verb: ["canadian", "burnt", "american", "good", "raw"],
-        key : () => ("bacon") 
-    },
-    { 
-        words :["beetroot", "beets"], 
-        key : () => ("beetroot") 
-    },
-    { 
-        words :["lettuce", "romaine"], 
-        verb: ["iceburg"],
-        key : () => ("lettuce") 
-    },
-    { 
-        words :["onion"],
-        verb :["red","white","fried","caramelized", "caramelised"],
-        key : (found) => (found.verb + "onion") 
-    },
-    {
-        words :["mustard"],
-        verb:  ["american", "british", "good"],
-        key : (found) => (found.verb + "mustard")
-    },
-    {
-        words :["mayo", "mayonaise", "aioli", "ranch"],
-        key : (found) => (found.verb + "mayo")
-    },
-    {
-        words :["ketchup"],
-        key : (found) => (found.verb + "ketchup")
-    },   
-    {
-        words :["sauce"],
-        verb:["bbq", "white", "red", "tomato"],
-        key : (found) => (found.verb + "sauce")
-    },   
-    { 
-        words :["pickles","pickle"], 
-        key : () => ("pickles") 
-    },
-    { 
-        words :["pineapple"], 
-        key : () => ("pineapple")
-    },
-    { 
-        words :["--undo"], 
-        command: {
-            params : 0,
-            action : (ingredients) => {
-                ingredients.splice(0, 1);
-                this.setState({
-                    ingredients : ingredients
-                });
-            }
-        },
-        key : () => ("undo") 
-    },
-    {
-        words :["--name"],
-        command: {
-            params : 0,
-            action : (ingredients) => {
-              console.log("Naming is TBD");
-            }
-        },
-        key : () => ("name")
-    }
-
-]);
+var p = new Parser(
+    Ingredient.getTypes());
 
 export default p;

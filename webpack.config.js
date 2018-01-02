@@ -21,11 +21,18 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     presets: ['env', 'react']
-                }
+                } 
             },
             {
                 test: /\.s?css$/,
                 use: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
+            },
+            {
+                loader: 'url-loader',
+                test: /\.(svg|ogg)$/,
+                options: {
+                    limit: 250,
+                }
             }
         ]
     },

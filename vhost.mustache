@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    DocumentRoot "{{dir}}"
+
+    {{#domains}}
+        {{key}} {{domain}}
+    {{/domains}}
+
+    <Directory "{{dir}}">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

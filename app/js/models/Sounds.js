@@ -1,0 +1,50 @@
+import path from 'path';
+
+class Sounds
+{   
+    constructor(index, obj) 
+    {
+        this.context = require.context("../../files", true, /^\.\/.*\.ogg$/);
+        
+        this.setVolume(1);
+        this.lib = {
+            nom : new Audio(this.context("./nom.ogg"))
+        }
+    }
+
+    setVolume(v){
+        v = Sounds.normaliseVolume(v);
+        if(v === false) return;
+        this.volume = v;
+    }
+    
+    static normaliseVolume(v){
+        if(isNaN(v)) return false;
+        if(!isNaN(v) && v > 1) v = (v / 100);
+        return Math.min(v, 1);
+    }
+
+    play(sound, v){
+        let volume = this.volume;
+
+        v = Sounds.normaliseVolume(v);
+        if(v !== false){
+            volume = v;
+        }
+
+        if(volume === 0){
+            return;
+        }
+
+        if(this.lib[sound]){
+            this.lib[sound].volume=volume;
+            this.lib[sound].play();
+        }
+    }
+}
+
+
+
+const singleton = new Sounds();
+window.sss = singleton;
+export default singleton;
