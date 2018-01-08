@@ -82,7 +82,7 @@ export default class Ingredient
             },   
             {
                 words :["sauce"],
-                verb:["bbq", "white", "red", "tomato"],
+                verb:["bbq", "white", "red"],
                 key : (found) => (found.verb + "sauce"),
                 offset : {pHeight:1.375}
             },   
@@ -129,6 +129,7 @@ export default class Ingredient
 
     constructor(index, obj, find = true) 
     {
+        var self = this;
         this.baseURL = "/app/img/";
         this.index = index;
         this.word = obj.word;
@@ -137,7 +138,44 @@ export default class Ingredient
         this.img = null;
         this.reversed = Math.random() > 0.49;
         var base = {x:0, y:0, top: 0, bottom: 0, left: 0, right: 0, pHeight: 8.66666666667, oHeight:0};
-        console.log(obj.conf.offset); 
+        //console.log(obj.conf.offset); 
+        this.animate = {
+            
+            position: {
+                x: 0,
+                y: 0,
+                getY: (change) =>{
+                    if(change){
+                        self.animate.position.y += self.animate.move.y();
+                    }
+
+                    return self.animate.position.y;
+                },
+                getX: (change) =>{
+                    if(change){
+                        self.animate.position.x += self.animate.move.x();
+                    }
+
+                    return self.animate.position.x;
+                }
+            },
+            move : {
+                vector: {
+                    x: (Math.random() * 20) - 10,
+                    y:0.1
+                },
+                x: () => {
+                    var v = self.animate.move.vector.x;
+                    self.animate.move.vector.x = self.animate.move.vector.x * 0.98;
+                    return v;
+                },
+                y: () => {
+                    var v = self.animate.move.vector.y;
+                    self.animate.move.vector.y = self.animate.move.vector.y * 1.3;
+                    return v;
+                }
+            }
+        };
 
         this.offset = Object.assign(base, obj.conf.offset);
 
@@ -145,5 +183,6 @@ export default class Ingredient
             this.img = this.getImgSrc();
         }
                 
+
     }
 }

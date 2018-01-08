@@ -79,7 +79,9 @@ class Parser {
                 if(foundWord){
                     
                     if(typeof keyword.max == 'number'){
-                        event.count  = Math.min(event.count,keyword.max);
+                        event.count = Math.min(event.count,keyword.max);
+                    } else {
+                        event.count = Math.min(event.count,5); 
                     }
 
                     event.word = foundWord;
@@ -168,7 +170,14 @@ class Parser {
 
 
 
-var p = new Parser(
-    Ingredient.getTypes());
+var p = new Parser( Ingredient.getTypes());
+
+    window.parser = (msg) => {
+        p.parse(
+            msg,
+            {username:"faxwang"},
+            "faxwang"
+        );
+    }
 
 export default p;

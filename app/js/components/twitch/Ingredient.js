@@ -6,10 +6,11 @@ export default class Ingredient extends React.Component {
 
     constructor(props) 
     {
-
+        
         super(props);
-
+        var  self = this;
         let width = props.width;
+
         
         this.state = {
             width:width,
@@ -23,27 +24,20 @@ export default class Ingredient extends React.Component {
 
         this.style = {
             zIndex : this.model.index, 
-            marginBottom: 0,
-            //marginBottom: -  (width * props.model.offset.y)
-            //marginBottom:  props.props.model.type == "cheese" ? - (props.width * (props.percent))  : 0 
+            marginBottom: 0
         };
 
         this.imageStyle = {
         };
 
-        var  self = this;
+        
         let image = sizeOf(props.model.img).then((size) => {
 
-            console.log(size);
             let ratio = size.width / size.height;
             var height = width * ratio;
 
             self.style.height = ( (this.model.offset.pHeight + this.model.offset.oHeight) / 100 ) * height;
             self.imageStyle.bottom = ((this.model.offset.bottom) / 100 ) * height;
-
-
-
-            // self.style.marginTop =  -(height * this.model.offset.top); 
 
             this.setState({
                 ratio : ratio,
@@ -55,11 +49,23 @@ export default class Ingredient extends React.Component {
         });
     }
 
-    componentWillUpdate(){
-        
+
+    componentWillUpdate(a){
+        if(a.frame > 0) {
+            this.imageStyle = {
+                left: this.model.animate.position.getX(a.frame > 0) + "px",
+                bottom: - this.model.animate.position.getY(a.frame > 0) + "px",
+            //    / opacity: Math.min( (100 - ((100 / 30) * a.frame)) / 100, 1)
+            };
+        }
+
+        //this.setState({frame: a.frame});
+
     }
 
     render(){
+        
+
         return this.state.loaded ? (
             <div className="ingredient-wrapper" style={this.style}>
                 <img height={this.state.height} className={this.klss} src={this.model.img} style={this.imageStyle} />

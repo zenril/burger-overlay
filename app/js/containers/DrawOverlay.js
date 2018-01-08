@@ -9,6 +9,7 @@ import Ingredient from '../models/Ingredient.js';
 import Burger from '../models/Burger.js';
 import Images from '../models/Images.js';
 import Sounds from '../models/Sounds.js';
+import Commands from '../models/Commands.js';
 
 require("../../sass/app.scss");
 
@@ -19,13 +20,18 @@ export default class DrawOverlay extends React.Component
     {
         super(props);
         this.timer = null;
+        this.timer2 = null;
         this.state = {
             channel : props.match.params["name"],
+            names : false,
             burgers : 0,
             locked : false,
             ingredients : [],
             burgerBar : [],
-            burger : null
+            burger : null,
+            frame: 0,
+            topple:true,
+            style: {}
         };
         this.twitch = new Twitch(props.match.params["name"]);
     }
@@ -35,7 +41,7 @@ export default class DrawOverlay extends React.Component
         var self = this;
         parser.onKeyword((f) => {
             clearTimeout(self.timer);
-                        
+
             let burger = self.state.burger;
             if( burger == null){
                 burger = new Burger();
@@ -43,7 +49,22 @@ export default class DrawOverlay extends React.Component
 
             for (var index = 0; index < f.count; index++) {
                 var ingredient = new Ingredient(burger.ingredients.length, f);
-                burger.add(ingredient);
+                var added = burger.add(ingredient);
+
+                if( added && burger.ingredients.length > 20 && self.state.frame == 0 && Math.random() > 0.95 && self.state.topple ){
+                    
+                    let frame = () => {
+                        
+                        self.setState({ frame : self.state.frame + 1});
+                        if(self.state.frame < 50){
+                            setTimeout(frame, 1000 / 24 );
+                        } else {
+                            self.setState({ frame : 0, burger: null});
+                        }
+                    }
+
+                    frame();
+                }
             }
             
             self.setState({ burger });
@@ -51,14 +72,32 @@ export default class DrawOverlay extends React.Component
             if(burger.isFinished()){
                 self.timer = setTimeout(function(){
                     self.finishBurger();
-                }, 3000);
+                }, 1500);
             }
 
         });
 
-        parser.onCommand("--namer",(f) => {
+        parser.onCommand("--name",(f) => {
+            let burger = self.state.burger;
+            if(burger){
+                burger.name = f.args.join(" ");
+                self.setState({ burger });
+            }
+        });
+
+        parser.onCommand("--show-name",(f) => {
             
-            console.log(f);
+            if(f.user.username == self.state.channel && f.args.length == 1 ){
+                self.setState({ names : Commands.bool(f.args[0]) });
+            }
+
+        });
+
+        parser.onCommand("--topple",(f) => {
+            
+            if(f.user.username == self.state.channel && f.args.length == 1 ){
+                self.setState({ topple : Commands.bool(f.args[0]) });
+            }
 
         });
 
@@ -135,33 +174,54 @@ export default class DrawOverlay extends React.Component
     {   
         const burgers = this.state.burgers;
         const ingredients = this.state.ingredients;
-
+        let state  = this.state;
+        let burgerBarBurgerClass = [
+            "burger-bar-burger-col", 
+            (this.state.names? "burgerbarburger-hasname" : "")
+        ];
+        
         return (
             <div className='burger-overlay'>
-                <div id='widget-overlay' className="widget chat burger-box">
-                    <div className='burger-count'>
-                        {burgers} Burgers made
-                    </div>
+                <div id='widget-overlay' className="widget chat burger-box" style={this.state.style}>
+      
                     {
                         this.state.burger ? this.state.burger.ingredients.map(function(item, i) {
-                            return <IngredientTemplate model={item} width={200} key={'currentburger-' + item.index} />
+                            return <IngredientTemplate model={item} frame={state.frame} width={200} key={'currentburger-' + item.index} />
                         })
                         :
                         null
                     }
+                    <div className='burger-name'>
+                        {
+                            this.state.burger && this.state.names? this.state.burger.name : null
+                        }
+                    </div>
+                    <div className='burger-count'>
+                        {burgers} Burgers made
+                    </div>
                 </div>
                 <div className='burger-bar'>
                     {
                         this.state.burgerBar.map(function(burger, i) {
+                            
+
+
                              return (
-                             <div className='burger-bar-burger' key={'burgerbarburger-' + i}>
-                                {
-                                    burger.ingredients.map( (item, kk) => {
-                                        return <IngredientTemplate model={item} width={150} key={'burgerbarburgeringredient-' + i + "-" + kk}/>
-                                    })
-                                }
-                             </div>
-                             );
+                                <div className={burgerBarBurgerClass.join(' ')} style={{width:50}} key={'burgerbarburger-' + i}>
+                                    <div className='burger-bar-burger'>
+                                        {
+                                            burger.ingredients.map( (item, kk) => {
+                                                return <IngredientTemplate model={item} width={50} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
+                                            })
+                                        }
+                                    </div>
+                                    <div className='burger-name'>
+                                        {
+                                            burger && state.names? burger.name : null
+                                        }
+                                    </div>
+                                </div>
+                            );
                         })
                     }
                 </div>

@@ -1,3 +1,5 @@
+let burgerID = 0;
+
 export default class Burger
 {   
 
@@ -7,13 +9,17 @@ export default class Burger
         this.name = "";
         this.bunner = "";
         this.namer = "";
+        this.id = ++burgerID;
     }
 
     add(ingredient) {
         if((ingredient.index == 0 && ingredient.key == 'bun') ||
              ( ingredient.index > 0 )){
             this.ingredients.unshift(ingredient);
+            return true;
         }
+
+        return false;
     }
 
     undo(ingredient) {

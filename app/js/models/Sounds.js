@@ -8,7 +8,8 @@ class Sounds
         
         this.setVolume(1);
         this.lib = {
-            nom : new Audio(this.context("./nom.ogg"))
+            nom : new Audio(this.context("./nom.ogg")),
+            bang : new Audio(this.context("./bang.ogg"))
         }
     }
 
