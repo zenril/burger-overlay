@@ -49,6 +49,13 @@ html{
         right:0;
         height:200px;
         //background: white;
+        
+    }
+
+    .burger-bar-nowrap{
+        width:99999px;   
+        overflow: visible;
+        height: 100%;
     }
 
     .burger-bar-burger{
@@ -80,4 +87,6 @@ html{
         left: -19px;
         bottom: 17px;
     }
+
+
 }

@@ -23,14 +23,14 @@ export default class DrawOverlay extends React.Component
         this.timer2 = null;
         this.state = {
             channel : props.match.params["name"],
-            names : false,
+            names : true,
             burgers : 0,
             locked : false,
             ingredients : [],
             burgerBar : [],
             burger : null,
             frame: 0,
-            topple:true,
+            topple:false,
             style: {}
         };
         this.twitch = new Twitch(props.match.params["name"]);
@@ -40,6 +40,12 @@ export default class DrawOverlay extends React.Component
     {
         var self = this;
         parser.onKeyword((f) => {
+            //
+
+            if(self.state.locked){
+                return;
+            }
+
             clearTimeout(self.timer);
 
             let burger = self.state.burger;
@@ -70,8 +76,16 @@ export default class DrawOverlay extends React.Component
             self.setState({ burger });
 
             if(burger.isFinished()){
+
+                self.setState({
+                    locked : true
+                });
+
                 self.timer = setTimeout(function(){
                     self.finishBurger();
+                    self.setState({
+                        locked : false
+                    });
                 }, 1500);
             }
 
@@ -175,10 +189,12 @@ export default class DrawOverlay extends React.Component
         const burgers = this.state.burgers;
         const ingredients = this.state.ingredients;
         let state  = this.state;
-        let burgerBarBurgerClass = [
-            "burger-bar-burger-col", 
-            (this.state.names? "burgerbarburger-hasname" : "")
-        ];
+        let burgerBarBurgerClass = (burger) => {
+            return [
+                "burger-bar-burger-col", 
+                (burger && burger.name && this.state.names? "burgerbarburger-hasname" : "")
+            ];
+        }
         
         return (
             <div className='burger-overlay'>
@@ -201,17 +217,18 @@ export default class DrawOverlay extends React.Component
                     </div>
                 </div>
                 <div className='burger-bar'>
+                <div className='burger-bar-nowrap' style={{width:this.state.burgerBar.length * 140}}>
                     {
                         this.state.burgerBar.map(function(burger, i) {
                             
 
 
                              return (
-                                <div className={burgerBarBurgerClass.join(' ')} style={{width:50}} key={'burgerbarburger-' + i}>
+                                <div className={burgerBarBurgerClass(burger).join(' ')} style={{width:80}} key={'burgerbarburger-' + i}>
                                     <div className='burger-bar-burger'>
                                         {
                                             burger.ingredients.map( (item, kk) => {
-                                                return <IngredientTemplate model={item} width={50} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
+                                                return <IngredientTemplate model={item} width={75} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
                                             })
                                         }
                                     </div>
@@ -224,6 +241,7 @@ export default class DrawOverlay extends React.Component
                             );
                         })
                     }
+                </div>
                 </div>
             </div>
         );

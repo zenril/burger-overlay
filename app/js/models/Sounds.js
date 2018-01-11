@@ -5,8 +5,8 @@ class Sounds
     constructor(index, obj) 
     {
         this.context = require.context("../../files", true, /^\.\/.*\.ogg$/);
-        
-        this.setVolume(1);
+        this.volume = 0;
+        //this.setVolume(0);
         this.lib = {
             nom : new Audio(this.context("./nom.ogg")),
             bang : new Audio(this.context("./bang.ogg"))
@@ -25,20 +25,20 @@ class Sounds
         return Math.min(v, 1);
     }
 
-    play(sound, v){
+    play(sound){
         let volume = this.volume;
 
-        v = Sounds.normaliseVolume(v);
-        if(v !== false){
-            volume = v;
-        }
+        // v = Sounds.normaliseVolume(v);
+        // if(v !== false){
+        //     volume = v;
+        // }
 
-        if(volume === 0){
-            return;
-        }
+        // if(volume === 0){
+        //     return;
+        // }
 
         if(this.lib[sound]){
-            this.lib[sound].volume=volume;
+            this.lib[sound].volume=this.volume;
             this.lib[sound].play();
         }
     }

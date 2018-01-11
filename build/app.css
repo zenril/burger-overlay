@@ -40,6 +40,11 @@ html .burger-bar {
   right: 0;
   height: 200px; }
 
+html .burger-bar-nowrap {
+  width: 99999px;
+  overflow: visible;
+  height: 100%; }
+
 html .burger-bar-burger {
   position: absolute;
   bottom: 20px; }

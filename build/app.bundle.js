@@ -5302,7 +5302,7 @@ var _DrawOverlay = __webpack_require__(89);
 
 var _DrawOverlay2 = _interopRequireDefault(_DrawOverlay);
 
-var _SpeakOverlay = __webpack_require__(154);
+var _SpeakOverlay = __webpack_require__(155);
 
 var _SpeakOverlay2 = _interopRequireDefault(_SpeakOverlay);
 
@@ -17445,7 +17445,7 @@ var _Sounds = __webpack_require__(149);
 
 var _Sounds2 = _interopRequireDefault(_Sounds);
 
-var _Commands = __webpack_require__(152);
+var _Commands = __webpack_require__(153);
 
 var _Commands2 = _interopRequireDefault(_Commands);
 
@@ -17457,7 +17457,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-__webpack_require__(153);
+__webpack_require__(154);
 
 var DrawOverlay = function (_React$Component) {
     _inherits(DrawOverlay, _React$Component);
@@ -17471,14 +17471,14 @@ var DrawOverlay = function (_React$Component) {
         _this.timer2 = null;
         _this.state = {
             channel: props.match.params["name"],
-            names: false,
+            names: true,
             burgers: 0,
             locked: false,
             ingredients: [],
             burgerBar: [],
             burger: null,
             frame: 0,
-            topple: true,
+            topple: false,
             style: {}
         };
         _this.twitch = new _Twitch2.default(props.match.params["name"]);
@@ -17490,6 +17490,12 @@ var DrawOverlay = function (_React$Component) {
         value: function componentDidMount() {
             var self = this;
             _parse2.default.onKeyword(function (f) {
+                //
+
+                if (self.state.locked) {
+                    return;
+                }
+
                 clearTimeout(self.timer);
 
                 var burger = self.state.burger;
@@ -17522,8 +17528,16 @@ var DrawOverlay = function (_React$Component) {
                 self.setState({ burger: burger });
 
                 if (burger.isFinished()) {
+
+                    self.setState({
+                        locked: true
+                    });
+
                     self.timer = setTimeout(function () {
                         self.finishBurger();
+                        self.setState({
+                            locked: false
+                        });
                     }, 1500);
                 }
             });
@@ -17619,10 +17633,14 @@ var DrawOverlay = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var burgers = this.state.burgers;
             var ingredients = this.state.ingredients;
             var state = this.state;
-            var burgerBarBurgerClass = ["burger-bar-burger-col", this.state.names ? "burgerbarburger-hasname" : ""];
+            var burgerBarBurgerClass = function burgerBarBurgerClass(burger) {
+                return ["burger-bar-burger-col", burger && burger.name && _this2.state.names ? "burgerbarburger-hasname" : ""];
+            };
 
             return _react2.default.createElement(
                 'div',
@@ -17648,25 +17666,29 @@ var DrawOverlay = function (_React$Component) {
                 _react2.default.createElement(
                     'div',
                     { className: 'burger-bar' },
-                    this.state.burgerBar.map(function (burger, i) {
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'burger-bar-nowrap', style: { width: this.state.burgerBar.length * 140 } },
+                        this.state.burgerBar.map(function (burger, i) {
 
-                        return _react2.default.createElement(
-                            'div',
-                            { className: burgerBarBurgerClass.join(' '), style: { width: 50 }, key: 'burgerbarburger-' + i },
-                            _react2.default.createElement(
+                            return _react2.default.createElement(
                                 'div',
-                                { className: 'burger-bar-burger' },
-                                burger.ingredients.map(function (item, kk) {
-                                    return _react2.default.createElement(_Ingredient2.default, { model: item, width: 50, key: 'burgerbarburgeringredient-' + burger.id + "-" + item.index });
-                                })
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: 'burger-name' },
-                                burger && state.names ? burger.name : null
-                            )
-                        );
-                    })
+                                { className: burgerBarBurgerClass(burger).join(' '), style: { width: 80 }, key: 'burgerbarburger-' + i },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'burger-bar-burger' },
+                                    burger.ingredients.map(function (item, kk) {
+                                        return _react2.default.createElement(_Ingredient2.default, { model: item, width: 75, key: 'burgerbarburgeringredient-' + burger.id + "-" + item.index });
+                                    })
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'burger-name' },
+                                    burger && state.names ? burger.name : null
+                                )
+                            );
+                        })
+                    )
                 )
             );
         }
@@ -20388,7 +20410,7 @@ var Parser = function () {
                         if (typeof keyword.max == 'number') {
                             event.count = Math.min(event.count, keyword.max);
                         } else {
-                            event.count = Math.min(event.count, 5);
+                            event.count = Math.min(event.count, event.count);
                         }
 
                         event.word = foundWord;
@@ -20753,8 +20775,8 @@ var Sounds = function () {
         _classCallCheck(this, Sounds);
 
         this.context = __webpack_require__(150);
-
-        this.setVolume(1);
+        this.volume = 0;
+        //this.setVolume(0);
         this.lib = {
             nom: new Audio(this.context("./nom.ogg")),
             bang: new Audio(this.context("./bang.ogg"))
@@ -20770,20 +20792,20 @@ var Sounds = function () {
         }
     }, {
         key: "play",
-        value: function play(sound, v) {
+        value: function play(sound) {
             var volume = this.volume;
 
-            v = Sounds.normaliseVolume(v);
-            if (v !== false) {
-                volume = v;
-            }
+            // v = Sounds.normaliseVolume(v);
+            // if(v !== false){
+            //     volume = v;
+            // }
 
-            if (volume === 0) {
-                return;
-            }
+            // if(volume === 0){
+            //     return;
+            // }
 
             if (this.lib[sound]) {
-                this.lib[sound].volume = volume;
+                this.lib[sound].volume = this.volume;
                 this.lib[sound].play();
             }
         }
@@ -20808,8 +20830,8 @@ exports.default = singleton;
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./bang.ogg": 156,
-	"./nom.ogg": 151
+	"./bang.ogg": 151,
+	"./nom.ogg": 152
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -20831,10 +20853,16 @@ webpackContext.id = 150;
 /* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "2c6089bb2fd1163a6071b503fc371a35.ogg";
+module.exports = __webpack_require__.p + "c601bf5cbc30507c933e0883e1074a64.ogg";
 
 /***/ }),
 /* 152 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "2c6089bb2fd1163a6071b503fc371a35.ogg";
+
+/***/ }),
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20881,13 +20909,13 @@ var Commands = function () {
 exports.default = Commands;
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21053,13 +21081,6 @@ var SpeakOverlay = function (_React$Component) {
 
 exports.default = SpeakOverlay;
 ;
-
-/***/ }),
-/* 155 */,
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "c601bf5cbc30507c933e0883e1074a64.ogg";
 
 /***/ })
 /******/ ]);
