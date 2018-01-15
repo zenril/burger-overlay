@@ -79,9 +79,9 @@ class Parser {
                 if(foundWord){
                     
                     if(typeof keyword.max == 'number'){
-                        event.count = Math.min(event.count,keyword.max);
+                        event.count = Math.min(event.count, keyword.max);
                     } else {
-                        event.count = Math.min(event.count,event.count); 
+                        event.count = Math.min(event.count, 5);
                     }
 
                     event.word = foundWord;

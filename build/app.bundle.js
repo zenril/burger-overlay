@@ -20410,7 +20410,7 @@ var Parser = function () {
                         if (typeof keyword.max == 'number') {
                             event.count = Math.min(event.count, keyword.max);
                         } else {
-                            event.count = Math.min(event.count, event.count);
+                            event.count = Math.min(event.count, 5);
                         }
 
                         event.word = foundWord;
@@ -20624,7 +20624,7 @@ module.exports = __webpack_require__.p + "40478393f08747b576aa1ca3e129b553.svg";
 /* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "75ce5fbf59a2b8711163f16f99f40682.svg";
+module.exports = __webpack_require__.p + "cb2a528f658f897e8ae56603acdf8603.svg";
 
 /***/ }),
 /* 138 */
