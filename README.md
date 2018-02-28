@@ -25,7 +25,7 @@ http://twitchchat.aaron-m.co.nz/do/jaxwild
 
 ## BURGER WORDS
 
-bread,bun,tomatoes,tomato,meat,beef,chicken,banana,bensnsbd,egg,shoe,cheese,cucumber,salami,pepperoni,chorizo,sausage,bacon,beetroot, beets,lettuce,romaine,onion,mustard,mayo,mayonaise,aioli,ranch,ketchup,sauce,pickles,pickle,pineapple
+bread, bun, tomatoes, tomato, meat, beef, chicken, banana, bensnsbd, egg, shoe, cheese, cucumber, salami, pepperoni, chorizo, sausage, bacon, beetroot, beets, lettuce, romaine, onion, mustard, mayo, mayonaise, aioli, ranch, ketchup, sauce, pickles, pickle, pineapple
 
 ## ACKNOWLEDGEMENTS
 
