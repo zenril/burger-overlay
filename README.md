@@ -30,13 +30,13 @@ bread, bun, tomatoes, tomato, meat, beef, chicken, banana, bensnsbd, egg, shoe, 
 ## IN CHANNEL COMMANDS
 
 Turn on nom-nom sounds (have to be channel owner): 
-  --volume <vol level>
+  --volume [vol level]
   
 Undo last ingredient:
   --undo
   
 Name your burger whilst in progress:
-  --name <burger name>
+  --name [burger name]
 
 ## ACKNOWLEDGEMENTS
 
