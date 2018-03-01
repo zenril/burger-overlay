@@ -43,7 +43,7 @@ Name your burger whilst in progress:
 *  Zenril/Fax - Programmer and Artist
 *  WootoSmash - Shitposter and bug finder/suggester
   
-## LICENSE
+## LICENSE - MIT
  
 Copyright 2017 Zenril/Fax
 
