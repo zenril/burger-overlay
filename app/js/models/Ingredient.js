@@ -22,9 +22,35 @@ export default class Ingredient
                 offset : { pHeight:6.92 }
             },
             { 
+                words :["beef"], 
+                key : (found) => (found.verb + "beef"),
+                offset : { pHeight:11.00 }
+            },
+            { 
+                words :["chicken"], 
+                key : (found) => (found.verb + "chicken"),
+                offset : { pHeight:12.42 }
+            },
+            { 
+                words :["jam"], 
+                key : (found) => (found.verb + "jam"),
+                offset : { pHeight:1.375 }
+            },
+            { 
+                words :["banana", "bensnsbd"],
+                verb :["sliced"],
+                key : (found) => (found.verb + "banana"),
+                offset : { pHeight:12.42 }
+            },
+            { 
                 words :["egg"], 
                 key : (found) => ("egg"),
                 offset : {pHeight:7.66}
+            },
+            { 
+                words :["shoe"], 
+                key : (found) => ("shoe"),
+                offset : {pHeight:50.66}
             },
             { 
                 words :["cheese"],

@@ -1,4 +1,4 @@
-import Ingredient from '../../models/Ingredient.js';
+
 
 class Parser {
 
@@ -170,14 +170,6 @@ class Parser {
 
 
 
-var p = new Parser( Ingredient.getTypes());
 
-    window.parser = (msg) => {
-        p.parse(
-            msg,
-            {username:"faxwang"},
-            "faxwang"
-        );
-    }
 
-export default p;
+export default Parser;

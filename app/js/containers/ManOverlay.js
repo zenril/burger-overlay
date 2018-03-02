@@ -5,25 +5,23 @@ import Twitch from '../twitch/Twitch.js';
 import IngredientTemplate from '../components/twitch/Ingredient.js';
 import Parser from '../components/twitch/parse.js';
 
-import Ingredient from '../models/Ingredient.js';
-import Burger from '../models/Burger.js';
 import Images from '../models/Images.js';
 import Sounds from '../models/Sounds.js';
 import Commands from '../models/Commands.js';
+import Ingredient from '../../models/Ingredient.js';
 
 require("../../sass/app.scss");
-var parser = new Parser( Ingredient.getTypes());
+var p = new Parser( Ingredient.getTypes());
 
 window.parser = (msg) => {
-    parser.parse(
+    p.parse(
         msg,
         {username:"faxwang"},
         "faxwang"
     );
 }
 
-
-export default class DrawOverlay extends React.Component
+export default class ManOverlay extends React.Component
 {
     
     constructor(props) 
@@ -45,15 +43,11 @@ export default class DrawOverlay extends React.Component
         };
         this.twitch = new Twitch(props.match.params["name"]);
     }
-    
-    canCommand (f) {
-        return (f.user['user-type'] == "mod" || f.user.username == self.state.channel) && f.args.length == 1;
-    }
 
     componentDidMount ()
     {
         var self = this;
-        parser.onKeyword((f) => {
+        p.onKeyword((f) => {
             //
 
             if(self.state.locked){
@@ -105,8 +99,6 @@ export default class DrawOverlay extends React.Component
 
         });
 
-
-
         parser.onCommand("--name",(f) => {
             let burger = self.state.burger;
             if(burger){
@@ -117,7 +109,7 @@ export default class DrawOverlay extends React.Component
 
         parser.onCommand("--show-name",(f) => {
             
-            if( canCommand(f) ){
+            if(f.user.username == self.state.channel && f.args.length == 1 ){
                 self.setState({ names : Commands.bool(f.args[0]) });
             }
 
@@ -125,7 +117,7 @@ export default class DrawOverlay extends React.Component
 
         parser.onCommand("--topple",(f) => {
             
-            if( canCommand(f) ){
+            if(f.user.username == self.state.channel && f.args.length == 1 ){
                 self.setState({ topple : Commands.bool(f.args[0]) });
             }
 
@@ -133,7 +125,7 @@ export default class DrawOverlay extends React.Component
 
         parser.onCommand("--volume", (f) => {
             
-            if( canCommand(f) ){
+            if(f.user.username == self.state.channel && f.args.length > 0){
                 Sounds.setVolume(f.args[0]);
             }
 

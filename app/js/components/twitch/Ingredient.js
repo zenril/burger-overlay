@@ -24,7 +24,8 @@ export default class Ingredient extends React.Component {
 
         this.style = {
             zIndex : this.model.index, 
-            marginBottom: 0
+            marginBottom: 0,
+            marginLeft: 0
         };
 
         this.imageStyle = {
@@ -35,7 +36,10 @@ export default class Ingredient extends React.Component {
 
             let ratio = size.width / size.height;
             var height = width * ratio;
+            var nwidth = height * ratio;
+            var offset = (nwidth - width) / 2;
 
+            self.style.marginLeft = -offset;
             self.style.height = ( (this.model.offset.pHeight + this.model.offset.oHeight) / 100 ) * height;
             self.imageStyle.bottom = ((this.model.offset.bottom) / 100 ) * height;
 
