@@ -43,7 +43,7 @@ export default class Ingredient
                 offset : { pHeight:7.42 }
             },
             { 
-                words :["egg"], 
+                words :["egg", "igg"], 
                 key : (found) => ("egg"),
                 offset : {pHeight:7.66}
             },
