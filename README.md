@@ -25,11 +25,15 @@ http://twitchchat.aaron-m.co.nz/do/jaxwild
 
 ## BURGER WORDS
 
-bread, bun, tomatoes, tomato, meat, beef, chicken, banana, bensnsbd, egg, shoe, cheese, cucumber, salami, pepperoni, chorizo, sausage, bacon, beetroot, beets, lettuce, romaine, onion, mustard, mayo, mayonaise, aioli, ranch, ketchup, sauce, pickles, pickle, pineapple
+bread, bun, tomatoes, tomato, meat, beef, chicken, banana, bensnsbd, egg, shoe, cheese, cucumber, salami, pepperoni, chorizo, sausage, bacon, beetroot, beets, lettuce, romaine, onion, mustard, mayo, mayonaise, aioli, ranch, ketchup, sauce, pickles, pickle, pineapple, 
+
+new
+----
+jam, banana, sliced banana, avocado, sliced avocado, chicken, beef
 
 ## IN CHANNEL COMMANDS
 
-Turn on nom-nom sounds (have to be channel owner): 
+Turn on nom-nom sounds (have to be channel owner or moderator): 
   --volume [vol level]
   
 Undo last ingredient:
