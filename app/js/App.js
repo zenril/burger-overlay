@@ -25,6 +25,7 @@ class App extends React.Component
                <Router>
                     <Switch>
                         <Route exact path="/do/:name" component={DrawOverlay} />
+                        <Route exact path="/question/:name" component={SpeakOverlay} />
                     </Switch>
                 </Router>
             </div>

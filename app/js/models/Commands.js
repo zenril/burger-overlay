@@ -18,6 +18,26 @@ class Commands
 
         return false;
     }
+
+    static int(input){
+        if(input.toString){
+            input = input.toString();
+        }
+
+        if(input){
+            input = input.replace(/[^0-9]/g, "");
+        } else  {
+            input = "0";
+        }
+
+        input = Number(input);
+
+        if(isNaN(input)){
+            input = 0;
+        }
+
+        return input;
+    }
 }
 
 export default Commands;

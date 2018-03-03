@@ -10,12 +10,22 @@ export default class Burger
         this.bunner = "";
         this.namer = "";
         this.id = ++burgerID;
+        this.type_map = {};
     }
 
     add(ingredient) {
+
         if((ingredient.index == 0 && ingredient.key == 'bun') ||
              ( ingredient.index > 0 )){
             this.ingredients.unshift(ingredient);
+            if(!this.type_map[ingredient.key]){
+                this.type_map[ingredient.key] = 0;
+            }
+
+            if(ingredient.key != 'bun'){
+                ++this.type_map[ingredient.key];
+            }
+
             return true;
         }
 

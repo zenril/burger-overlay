@@ -40,12 +40,18 @@ export default class Ingredient
                 words :["banana", "bensnsbd"],
                 verb :["sliced"],
                 key : (found) => (found.verb + "banana"),
-                offset : { pHeight:12.42 }
+                offset : { pHeight:7.42 }
             },
             { 
                 words :["egg"], 
                 key : (found) => ("egg"),
                 offset : {pHeight:7.66}
+            },
+            { 
+                words :["avocado"],
+                verb :["sliced"],
+                key : (found) => (found.verb + "avocado"),
+                offset : {pHeight:8.66}
             },
             { 
                 words :["shoe"], 

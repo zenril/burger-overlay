@@ -33,21 +33,51 @@ export default class DrawOverlay extends React.Component
         this.timer2 = null;
         this.state = {
             channel : props.match.params["name"],
-            names : true,
             burgers : 0,
             locked : false,
             ingredients : [],
             burgerBar : [],
+            style: {},
             burger : null,
             frame: 0,
-            topple:false,
-            style: {}
+
+            opts : {
+                names : true,
+                topple:false,
+                threshhold: 20,
+                maxtype: 0,
+                volume: 0,
+                expanded : false,
+                finishable : true
+            }
         };
+
+        this.state.opts = Object.assign(this.state.opts, this.getOpts() );
+
+
         this.twitch = new Twitch(props.match.params["name"]);
+        
     }
     
     canCommand (f) {
-        return (f.user['user-type'] == "mod" || f.user.username == self.state.channel) && f.args.length == 1;
+        return (f.user['user-type'] == "mod" || f.user.username == this.state.channel);
+    }
+
+    componentWillUpdate () 
+    {
+        Sounds.setVolume(this.state.opts.volume);
+    }
+
+    updateOpts () {
+        window.localStorage["burgeropts"] = JSON.stringify(this.state.opts);
+    }
+
+    getOpts () {
+        return JSON.parse(window.localStorage["burgeropts"] || "{}") || {};
+    }
+
+    defaultOpts () {
+        return window.localStorage["burgeropts"] = "{}";
     }
 
     componentDidMount ()
@@ -69,9 +99,14 @@ export default class DrawOverlay extends React.Component
 
             for (var index = 0; index < f.count; index++) {
                 var ingredient = new Ingredient(burger.ingredients.length, f);
+
+                if( self.state.opts.maxtype > 0 && burger.type_map[ingredient.key] >= self.state.opts.maxtype ){
+                    continue;
+                }
+
                 var added = burger.add(ingredient);
 
-                if( added && burger.ingredients.length > 20 && self.state.frame == 0 && Math.random() > 0.95 && self.state.topple ){
+                if( added && burger.ingredients.length > self.state.opts.threshhold && self.state.frame == 0 && Math.random() > 0.95 && self.state.opts.topple ){
                     
                     let frame = () => {
                         
@@ -95,12 +130,14 @@ export default class DrawOverlay extends React.Component
                     locked : true
                 });
 
-                self.timer = setTimeout(function(){
-                    self.finishBurger();
-                    self.setState({
-                        locked : false
-                    });
-                }, 1500);
+                if(self.state.opts.finishable){
+                    self.timer = setTimeout(function(){
+                        self.finishBurger();
+                        self.setState({
+                            locked : false
+                        });
+                    }, 1500);
+                }
             }
 
         });
@@ -115,73 +152,115 @@ export default class DrawOverlay extends React.Component
             }
         });
 
+        parser.onCommand("--reset-opts",(f) => {
+           self.defaultOpts();
+        });
+
         parser.onCommand("--show-name",(f) => {
             
-            if( canCommand(f) ){
-                self.setState({ names : Commands.bool(f.args[0]) });
+            if( self.canCommand(f) ){
+
+                let opts = this.state.opts;
+                opts["names"] = Commands.bool(f.args[0]);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
+            }
+
+        });
+
+        parser.onCommand("--expanded",(f) => {
+            
+            if( self.canCommand(f) ){
+
+                let opts = this.state.opts;
+                opts["expanded"] = Commands.bool(f.args[0]);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
+            }
+
+        });
+
+        parser.onCommand("--finish",(f) => {
+            
+            if( self.canCommand(f) ){
+                self.finishBurger();
+                // let opts = this.state.opts;
+                // opts["finish"] = Commands.bool(f.args[0]);
+                // self.setState({ opts : opts });
             }
 
         });
 
         parser.onCommand("--topple",(f) => {
             
-            if( canCommand(f) ){
-                self.setState({ topple : Commands.bool(f.args[0]) });
+            if( self.canCommand(f) ){
+                let opts = this.state.opts;
+                opts["topple"] = Commands.bool(f.args[0]);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
             }
 
         });
 
+        parser.onCommand("--threshhold",(f) => {
+            
+            if( self.canCommand(f) ){
+                let opts = this.state.opts;
+                opts["threshhold"] = Commands.int(f.args[0]);
+                console.log(opts);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
+            }
+
+        });
+
+        parser.onCommand("--maxtype",(f) => {
+            
+            if( self.canCommand(f) ){
+                let opts = this.state.opts;
+                opts["maxtype"] = Commands.int(f.args[0]);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
+            }
+
+        });
+
+        
+        parser.onCommand("--auto-finish",(f) => {
+            
+            if( self.canCommand(f) ){
+                let opts = this.state.opts;
+                opts["finishable"] = Commands.int(f.args[0]);
+                self.setState({ opts : opts });
+            
+                self.updateOpts();
+            }
+
+        });
+
+
         parser.onCommand("--volume", (f) => {
             
-            if( canCommand(f) ){
-                Sounds.setVolume(f.args[0]);
+            if( self.canCommand(f) ){
+                let opts = this.state.opts;
+                opts["volume"] = Commands.int(f.args[0]);
+                self.setState({ opts : opts });
+
+                self.updateOpts();
             }
 
         });
 
        
-        self.twitch.chat((channel, user, message) => {
-
+        self.twitch.chat((channel, user, message) => { 
             parser.parse(message, user, channel);
-
-            // console.log('a');
-
-            // const ingredients = self.state.ingredients;
-            
-            // if(self.state.locked){
-            //     return;
-            // }
-
-            // parse.forEach(function(element) {
-                
-
-            //     if(element.test.test(message) && ((ingredients.length == 0 &&  element.img() == "bottom_bun") || ingredients[0] )) {
-                    
-            //         if(element.action){
-            //             element.action(ingredients);
-            //             return;
-            //         }
-
-            //         ingredients.unshift({ 
-            //             type : element.img(), 
-            //             reverse : Math.random() >= 0.5,
-            //             thin: !!element.thin
-            //         });
-
-            //         self.setState({ ingredients });
-            //     }
-            // }, this);
-
-            // if(ingredients[0] && ingredients[0].type == 'top_bun'){
-            //     self.setState({ locked : true });
-            //     setTimeout(function(){
-            //         self.finishBurger();
-            //     }, 3000);
-            // }
-            
         }, true);
 
-        //parser.parse('bun meat cheese sauce sauce');
     }
 
     finishBurger(){
@@ -208,24 +287,24 @@ export default class DrawOverlay extends React.Component
         let burgerBarBurgerClass = (burger) => {
             return [
                 "burger-bar-burger-col", 
-                (burger && burger.name && this.state.names? "burgerbarburger-hasname" : "")
+                (burger && burger.name && this.state.opts.names? "burgerbarburger-hasname" : "")
             ];
         }
         
         return (
             <div className='burger-overlay'>
-                <div id='widget-overlay' className="widget chat burger-box" style={this.state.style}>
+                <div id='widget-overlay' className="widget chat burger-box" data-expanded={state.opts.expanded} style={this.state.style}>
       
                     {
                         this.state.burger ? this.state.burger.ingredients.map(function(item, i) {
-                            return <IngredientTemplate model={item} frame={state.frame} width={200} key={'currentburger-' + item.index} />
+                            return <IngredientTemplate model={item} expanded={state.opts.expanded} frame={state.frame} width={200} key={'currentburger-' + item.index + '-' + state.opts.expanded} />
                         })
                         :
                         null
                     }
                     <div className='burger-name'>
                         {
-                            this.state.burger && this.state.names? this.state.burger.name : null
+                            this.state.burger && this.state.opts.names? this.state.burger.name : null
                         }
                     </div>
                     <div className='burger-count'>
@@ -244,7 +323,7 @@ export default class DrawOverlay extends React.Component
                                     <div className='burger-bar-burger'>
                                         {
                                             burger.ingredients.map( (item, kk) => {
-                                                return <IngredientTemplate model={item} width={75} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
+                                                return <IngredientTemplate model={item} expanded={false} width={75} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
                                             })
                                         }
                                     </div>
