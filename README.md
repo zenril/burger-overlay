@@ -32,6 +32,8 @@ jam, banana, sliced banana, avocado, sliced avocado, chicken, beef
 
 ## IN CHANNEL COMMANDS
 
+All commands are saved between uses of the overlay
+
 | Command       | Expected values       | Description                                                                                                                        | Use                      |
 |---------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
 | --show-name   | true, false           | Set true or false to hyide or show burger names                                                                                    | --show-name false        |
