@@ -19,9 +19,15 @@ class Sounds
         this.volume = v;
     }
     
+    // JS volume supports a range of 0.0 - 1.0.
+    // This function normalises any value to within this range
     static normaliseVolume(v){
         if(isNaN(v)) return false;
+        
+        // divide the value by 100 to bring it into range
         if(!isNaN(v) && v > 1) v = (v / 100);
+        
+        // pass the value out, if its greater than 1.0 pass out 1.0
         return Math.min(v, 1);
     }
 
