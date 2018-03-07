@@ -11,6 +11,9 @@ import Images from '../models/Images.js';
 import Sounds from '../models/Sounds.js';
 import Commands from '../models/Commands.js';
 
+window.jQuery = require("jQuery");
+require('../thirdparty/jGravity');
+
 require("../../sass/app.scss");
 var parser = new Parser( Ingredient.getTypes());
 
@@ -25,8 +28,7 @@ window.parser = (msg) => {
 
 export default class DrawOverlay extends React.Component
 {
-    
-    constructor(props) 
+    constructor(props)
     {
         super(props);
         this.timer = null;
@@ -52,13 +54,13 @@ export default class DrawOverlay extends React.Component
             }
         };
 
+        //get opts from local storage.
         this.state.opts = Object.assign(this.state.opts, this.getOpts() );
 
-
+        //init the twitch chat listener
         this.twitch = new Twitch(props.match.params["name"]);
-        
     }
-    
+
     canCommand (f) {
         return (f.user['user-type'] == "mod" || f.user.username == this.state.channel);
     }
@@ -107,21 +109,10 @@ export default class DrawOverlay extends React.Component
                 var added = burger.add(ingredient);
 
                 if( added && burger.ingredients.length > self.state.opts.threshhold && self.state.frame == 0 && Math.random() > 0.95 && self.state.opts.topple ){
-                    
-                    let frame = () => {
-                        
-                        self.setState({ frame : self.state.frame + 1});
-                        if(self.state.frame < 50){
-                            setTimeout(frame, 1000 / 24 );
-                        } else {
-                            self.setState({ frame : 0, burger: null});
-                        }
-                    }
-
-                    frame();
+                    window.jQuery('.burger-box .ingredient-wrapper').jGravity();
                 }
             }
-            
+
             self.setState({ burger });
 
             if(burger.isFinished()){
@@ -297,7 +288,7 @@ export default class DrawOverlay extends React.Component
       
                     {
                         this.state.burger ? this.state.burger.ingredients.map(function(item, i) {
-                            return <IngredientTemplate model={item} expanded={state.opts.expanded} frame={state.frame} width={200} key={'currentburger-' + item.index + '-' + state.opts.expanded} />
+                            return <IngredientTemplate model={item} expanded={state.opts.expanded} width={200} key={'currentburger-' + item.index + '-' + state.opts.expanded} />
                         })
                         :
                         null

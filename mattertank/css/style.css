@@ -1,0 +1,11 @@
+.thingo{
+  height:13px;
+  border-bottom:1px solid white;
+  background:red;
+  width:50px;  
+}
+
+.thingobox{
+  position:relative;
+  float:left;
+}

@@ -1,6 +1,6 @@
 {
   
-  "vhost": "C:\\xampp\\apache\\conf\\extra\\httpd-vhosts.conf",
+  "vhost": "/etc/apache2/extra/httpd-vhosts.conf",
   "dir": "./",
   "template": "./vhost.mustache",
   "domains": [

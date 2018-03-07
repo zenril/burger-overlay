@@ -54,24 +54,7 @@ export default class Ingredient extends React.Component {
         });
     }
 
-
-    
-
     componentWillUpdate(a){
-
-        
-
-
-        if(a.frame > 0) {
-            this.imageStyle = {
-                left: this.model.animate.position.getX(a.frame > 0) + "px",
-                bottom: - this.model.animate.position.getY(a.frame > 0) + "px",
-            //    / opacity: Math.min( (100 - ((100 / 30) * a.frame)) / 100, 1)
-            };
-        }
-
-        //this.setState({frame: a.frame});
-
     }
 
     render(){
