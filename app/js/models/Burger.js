@@ -33,7 +33,9 @@ export default class Burger
     }
 
     undo(ingredient) {
+
         ingredients.splice(0, 1);
+        
     }
 
     isFinished (){

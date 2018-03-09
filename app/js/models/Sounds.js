@@ -25,7 +25,7 @@ class Sounds
         if(isNaN(v)) return false;
         
         // divide the value by 100 to bring it into range
-        if(!isNaN(v) && v > 1) v = (v / 100);
+        v = (v / 100);
         
         // pass the value out, if its greater than 1.0 pass out 1.0
         return Math.min(v, 1);
