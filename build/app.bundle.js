@@ -20680,7 +20680,7 @@ webpackContext.id = 124;
 /* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "b041b76463a2e81754dd65e6f59dd45b.svg";
+module.exports = __webpack_require__.p + "0286c334f4361ed83819c2b96bd478f0.svg";
 
 /***/ }),
 /* 126 */
@@ -20752,7 +20752,7 @@ module.exports = __webpack_require__.p + "b4aede88aa4769a25c754468d3dc1a0d.svg";
 /* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "db8c048be24144099294182681116a39.svg";
+module.exports = __webpack_require__.p + "20bd61dc5249a2721e720b4605916cad.svg";
 
 /***/ }),
 /* 138 */
@@ -20794,7 +20794,7 @@ module.exports = __webpack_require__.p + "1176f34a489e1786f4cf5c1d9f42972d.svg";
 /* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "0e9372c5a2e2dd0a08978d5919617058.svg";
+module.exports = __webpack_require__.p + "c87f8db994e272d6bb20c527ecddb5b9.svg";
 
 /***/ }),
 /* 145 */
@@ -20830,7 +20830,7 @@ module.exports = __webpack_require__.p + "adc07ef59c23a66d6a8c73140e3132dc.svg";
 /* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "49e77981df46ad6b45063d581c2de399.svg";
+module.exports = __webpack_require__.p + "96d688ac75c33f8ca50de594cce369c6.svg";
 
 /***/ }),
 /* 151 */
@@ -20860,7 +20860,7 @@ module.exports = __webpack_require__.p + "d13a2c6e9244c3984173991df2645895.svg";
 /* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "d09f631e6304f4aa794cf996b49ec598.svg";
+module.exports = __webpack_require__.p + "6df959579d3a46ecad0ad1166b17b3a1.svg";
 
 /***/ }),
 /* 156 */
@@ -20925,6 +20925,7 @@ var Burger = function () {
     }, {
         key: "undo",
         value: function undo(ingredient) {
+
             ingredients.splice(0, 1);
         }
     }, {
@@ -21017,7 +21018,7 @@ var Sounds = function () {
             if (isNaN(v)) return false;
 
             // divide the value by 100 to bring it into range
-            if (!isNaN(v) && v > 1) v = v / 100;
+            v = v / 100;
 
             // pass the value out, if its greater than 1.0 pass out 1.0
             return Math.min(v, 1);
