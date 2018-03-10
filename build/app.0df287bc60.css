@@ -1,0 +1,72 @@
+html .burger-box {
+  position: absolute;
+  bottom: 50px;
+  left: 50px; }
+
+html .ingredient-wrapper {
+  position: relative;
+  display: block;
+  overflow: visible; }
+  html .ingredient-wrapper .ingredient {
+    position: absolute;
+    bottom: 0;
+    display: block; }
+
+html .burger-overlay {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  right: 0; }
+
+html .burger-count {
+  font-family: Roboto;
+  font-size: 40px;
+  margin-bottom: -40px;
+  margin-left: -29px;
+  text-shadow: 0px 0px 18px white; }
+
+html .ir {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH"; }
+
+html .burger-bar {
+  position: absolute;
+  bottom: 0;
+  left: 350px;
+  right: 0;
+  height: 200px; }
+
+html .burger-bar-nowrap {
+  width: 99999px;
+  overflow: visible;
+  height: 100%; }
+
+html .burger-bar-burger {
+  position: absolute;
+  bottom: 20px; }
+
+html .burger-bar-burger-col {
+  position: relative;
+  float: left;
+  height: 100%; }
+
+html .burgerbarburger-hasname {
+  margin-left: 40px; }
+
+html .burger-name {
+  transform: rotate(270deg);
+  transform-origin: 0;
+  position: absolute;
+  left: -20px;
+  font-size: 25px;
+  font-family: Roboto;
+  text-shadow: 0px 0px 18px white;
+  white-space: nowrap;
+  left: -19px;
+  bottom: 17px; }
+
+/*# sourceMappingURL=app.0df287bc60.css.map*/

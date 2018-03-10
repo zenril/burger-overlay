@@ -1,8 +1,19 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+let pathsToClean = [
+    'build'
+];
+
+let cleanOptions = {
+    root:     path.resolve(__dirname),
+    exclude:  ['shared.js'],
+    verbose:  true,
+    dry:      false
+};
 
 
 module.exports = {
@@ -11,7 +22,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: 'app.bundle.js',
+        filename: 'app.bundle.[hash:10].js',
         publicPath: '/build/'
     },
     module: {
@@ -51,7 +62,7 @@ module.exports = {
             template: 'app/template.html',
             inject:true
         }),
-        new CleanWebpackPlugin(["public"]),
-        new ExtractTextPlugin("[name].css")
+        new CleanWebpackPlugin(["build"], cleanOptions),
+        new ExtractTextPlugin("[name].[hash:10].css")
     ]
 };

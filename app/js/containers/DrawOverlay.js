@@ -33,14 +33,18 @@ export default class DrawOverlay extends React.Component
         super(props);
         this.timer = null;
         this.timer2 = null;
+
+        var b = new Burger();
+        b.add(Ingredient.fromKey(0, "bun"));
+
         this.state = {
             channel : props.match.params["name"],
             burgers : 0,
             locked : false,
             ingredients : [],
             burgerBar : [],
-            style: {},
-            burger : null,
+            style: {},                                                        
+            burger : b,
             frame: 0,
 
             opts : {
@@ -261,9 +265,13 @@ export default class DrawOverlay extends React.Component
             burgerBar : this.state.burgerBar
         });
 
+        var b = new Burger();
+        
+        b.add(Ingredient.fromKey(0, "bun"));
+
         this.setState({
             locked : false,
-            burger : null,
+            burger : b,
             burgers : this.state.burgers + 1 
         });
         

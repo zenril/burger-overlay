@@ -159,6 +159,18 @@ export default class Ingredient
 
     }
 
+    static fromKey(index, key){
+        return new Ingredient(index, {
+            word : key,
+            key : key,
+            verb : null,
+        
+            conf: {
+                offset : 0
+            }
+        });
+    }
+
     constructor(index, obj, find = true) 
     {
         var self = this;
