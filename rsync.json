@@ -1,0 +1,21 @@
+{
+    "destinations": [
+      {
+        "name": "prod",
+        "host": "74.50.57.247",
+        "port" : "27392",
+        "user": "root",
+        "chown": ":www-data",
+        "dest": "/var/www/twitchchat.aaron-m.co.nz/public_html/",
+        "source": "build/*",
+        "sshKey": "/c/Users/aaron/.ssh/id_rsa"
+      }
+    ],
+    "exclude": [
+      "node_modules",
+      "build",
+      "tmp",
+      "local",
+      "rsync.json"
+    ]
+  }

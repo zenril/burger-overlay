@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let pathsToClean = [
     'build'
@@ -10,7 +11,7 @@ let pathsToClean = [
 
 let cleanOptions = {
     root:     path.resolve(__dirname),
-    exclude:  ['shared.js'],
+    exclude:  ['aasd'],
     verbose:  true,
     dry:      false
 };
@@ -23,7 +24,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'app.bundle.[hash:10].js',
-        publicPath: '/build/'
+        publicPath: '/'
     },
     module: {
         loaders: [
@@ -56,13 +57,15 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
-        
+        new CopyWebpackPlugin([
+            { from: '.htaccess', to: './' }  
+        ]),
         new HtmlWebpackPlugin({  // Also generate a test.html
-            filename: '../index.html',
+            filename: '../build/index.html',
             template: 'app/template.html',
             inject:true
         }),
-        new CleanWebpackPlugin(["build"], cleanOptions),
+        new CleanWebpackPlugin(["build/*.*"], cleanOptions),
         new ExtractTextPlugin("[name].[hash:10].css")
     ]
 };
