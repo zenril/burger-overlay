@@ -111,9 +111,8 @@ export default class DrawOverlay extends React.Component
                 }
 
                 var added = burger.add(ingredient);
-
                 if( added && burger.ingredients.length > self.state.opts.threshhold && self.state.frame == 0 && Math.random() > 0.95 && self.state.opts.topple ){
-                    window.jQuery('.burger-box .ingredient-wrapper').jGravity();
+                    //window.jQuery('.burger-box .ingredient-wrapper').jGravity();
                 }
             }
 
