@@ -11,7 +11,10 @@ export default class Burger
         this.namer = "";
         this.id = ++burgerID;
         this.type_map = {};
-    }
+        this.width = 0;
+        this.biggestRatio = 0;
+        this.display = true;
+    } 
 
     add(ingredient) {
 
@@ -24,6 +27,10 @@ export default class Burger
 
             if(ingredient.key != 'bun'){
                 ++this.type_map[ingredient.key];
+            }
+
+            if(ingredient.ratio > this.biggestRatio ){
+                this.biggestRatio = ingredient.ratio;
             }
 
             return true;
@@ -48,5 +55,12 @@ export default class Burger
         }
 
         return false;
+    }
+
+    getWidth (base){
+        var height = base * this.biggestRatio;
+        var nwidth = height * this.biggestRatio;
+
+        return nwidth;
     }
 }

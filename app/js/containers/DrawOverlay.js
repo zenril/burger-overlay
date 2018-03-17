@@ -58,6 +58,8 @@ export default class DrawOverlay extends React.Component
             }
         };
 
+        this.width = 0;
+
         //get opts from local storage.
         this.state.opts = Object.assign(this.state.opts, this.getOpts() );
 
@@ -204,7 +206,6 @@ export default class DrawOverlay extends React.Component
             if( self.canCommand(f) ){
                 let opts = this.state.opts;
                 opts["threshhold"] = Commands.int(f.args[0]);
-                console.log(opts);
                 self.setState({ opts : opts });
 
                 self.updateOpts();
@@ -279,8 +280,11 @@ export default class DrawOverlay extends React.Component
 
     render ()
     {   
+        var self = this;
+        this.width = this.state.burger.getWidth(220);
         const burgers = this.state.burgers;
         const ingredients = this.state.ingredients;
+        this.stop = false;
         let state  = this.state;
         let burgerBarBurgerClass = (burger) => {
             return [
@@ -291,7 +295,7 @@ export default class DrawOverlay extends React.Component
         
         return (
             <div className='burger-overlay'>
-                <div id='widget-overlay' className="widget chat burger-box" data-expanded={state.opts.expanded} style={this.state.style}>
+                <div id='widget-overlay' className="widget chat burger-box" data-expanded={state.opts.expanded} style={{width:this.state.burger.getWidth(220)}}>
       
                     {
                         this.state.burger ? this.state.burger.ingredients.map(function(item, i) {
@@ -300,41 +304,51 @@ export default class DrawOverlay extends React.Component
                         :
                         null
                     }
+
                     <div className='burger-name'>
                         {
                             this.state.burger && this.state.opts.names? this.state.burger.name : null
                         }
                     </div>
+
                     <div className='burger-count'>
                         {burgers} Burgers made
                     </div>
+
                 </div>
-                <div className='burger-bar'>
-                <div className='burger-bar-nowrap' style={{width:this.state.burgerBar.length * 140}}>
-                    {
-                        this.state.burgerBar.map(function(burger, i) {
+
+                <div className='burger-bar' style={{left:this.state.burger.getWidth(220)}}>
+                    <div className='burger-bar-nowrap' style={{width:this.state.burgerBar.length * 300}}>
+                        {
+                            this.state.burgerBar.map(function(burger, i) {
+                                
+                                self.width += burger.getWidth(80);
+                                self.stop = self.stop || self.width > jQuery(window).width();
+
+                                return (
+                                    burger.display && !self.stop ? (
+                                        <div className={burgerBarBurgerClass(burger).join(' ')} style={{width:burger.getWidth(80)}} key={'burgerbarburger-' + i}>
+                                            <div className='burger-bar-burger'>
+                                                {
+                                                    burger.ingredients.map( (item, kk) => {
+                                                        return <IngredientTemplate model={item} expanded={false} width={75} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
+                                                    })
+                                                }
+                                            </div>
+                                            <div className='burger-name'>
+                                                {
+                                                    burger && state.names? burger.name : null
+                                                }
+                                            </div>
+                                        </div>
+                                    )
+                                    :
+                                    null
+                                );
+                            })
                             
-
-
-                             return (
-                                <div className={burgerBarBurgerClass(burger).join(' ')} style={{width:80}} key={'burgerbarburger-' + i}>
-                                    <div className='burger-bar-burger'>
-                                        {
-                                            burger.ingredients.map( (item, kk) => {
-                                                return <IngredientTemplate model={item} expanded={false} width={75} key={'burgerbarburgeringredient-' + burger.id + "-" + item.index}/>
-                                            })
-                                        }
-                                    </div>
-                                    <div className='burger-name'>
-                                        {
-                                            burger && state.names? burger.name : null
-                                        }
-                                    </div>
-                                </div>
-                            );
-                        })
-                    }
-                </div>
+                        }
+                    </div>
                 </div>
             </div>
         );

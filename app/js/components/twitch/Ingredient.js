@@ -22,15 +22,14 @@ export default class Ingredient extends React.Component {
         this.imageStyle = {
         };
 
-        console.log(this.model);
         // let ratio = size.width / size.height;
         var height = width * this.model.ratio;
         var nwidth = height * this.model.ratio;
-        var offset = (nwidth - width) / 2;
+        // var offset = (nwidth - width) / 2;
 
-        self.style.marginLeft = -offset;
+        // self.style.marginLeft = -offset;
         self.style.height = ( (this.model.offset.pHeight + (this.props.expanded?20:0) + this.model.offset.oHeight) / 100 ) * height;
-        self.imageStyle.bottom = ((this.model.offset.bottom) / 100 ) * height;
+        // self.imageStyle.bottom = ((this.model.offset.bottom) / 100 ) * height;
 
         // this.setState({
         //     ratio : this.model.ratio,
@@ -69,7 +68,9 @@ export default class Ingredient extends React.Component {
 
         return this.state.loaded ? (
             <div className="ingredient-wrapper" style={style}>
-                <img height={this.state.height} className={this.klss} src={this.model.img} style={imageStyle} />
+                <div className="innerwrapper">
+                    <img height={this.state.height} className={this.klss} src={this.model.img} style={imageStyle} />
+                </div>
             </div>
         ) : null;
     }

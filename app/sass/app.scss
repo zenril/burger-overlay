@@ -1,21 +1,26 @@
 html{
     
-        .burger-box{
+    .burger-box{
         position: absolute;
-        bottom:50px;
-        left:50px;
+        bottom:0px;
     } 
 
     .ingredient-wrapper{
         position: relative;
         display: block;
         overflow: visible;
+        width: 100%;
         .ingredient {
-            position: absolute;
-            // left: 0;
-            bottom:0;
-            display: block;
+
         }
+
+        .innerwrapper {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            width: 100%;
+        }
+
     }
 
     .burger-overlay {
@@ -31,6 +36,8 @@ html{
         margin-bottom: -40px;
         margin-left: -29px;
         text-shadow: 0px 0px 18px white;
+        white-space: nowrap;
+        text-align: center;
     }
 
     .ir{
@@ -44,7 +51,7 @@ html{
 
     .burger-bar {
         position: absolute;
-        bottom:0;
+        bottom:30px;
         left:350px;
         right:0;
         height:200px;
@@ -61,6 +68,7 @@ html{
     .burger-bar-burger{
         position: absolute;
         bottom: 20px;
+        width: 100%;
     } 
 
 

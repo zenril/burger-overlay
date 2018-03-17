@@ -14,6 +14,7 @@ class Sounds
     }
 
     setVolume(v){
+        console.log('volume');
         v = Sounds.normaliseVolume(v);
         if(v === false) return;
         this.volume = v;
@@ -43,10 +44,10 @@ class Sounds
         //     return;
         // }
 
-        if(this.lib[sound]){
-            this.lib[sound].volume=this.volume;
-            this.lib[sound].play();
-        }
+        // if(this.lib[sound]){
+        //     this.lib[sound].volume=this.volume;
+        //     this.lib[sound].play();
+        // }
     }
 }
 

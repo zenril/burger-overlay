@@ -83,7 +83,6 @@ export default class Twitch
 
     chat(callback, dontParse)
     {   
-        console.log("Asdasd");
         var me = this;
         var client = new irc.client(me.options);
 
