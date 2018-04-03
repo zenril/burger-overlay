@@ -34,19 +34,20 @@ jam, banana, sliced banana, avocado, sliced avocado, chicken, beef
 
 All commands are saved between uses of the overlay
 
-| Command       | Expected values       | Description                                                                                                                        | Use                      |
-|---------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|--------------------------|
-| --show-name   | true, false           | Set true or false to hyide or show burger names                                                                                    | --show-name false        |
-| --name        | Any string of letters | Name your burger whilst in progress                                                                                                | --name sweet arse burger |
-| --expanded    | true, false           | Expand your burger to get a good look at all the ingredients                                                                       | --expanded false         |
-| --auto-finish | true, false           | If set to false the burger will not complete when top bun is put on, unless owner or mod uses --finish                             | --auto-finish true       |
-| --finish      |                       | Will finish the current burger and put it in the burger bar                                                                        | --finish                 |
-| --topple      | true, false           | When burger height reaches 20 or the height specified by --threshhold, the burger has a chance to fall over after every item added | --topple false           |
-| --threshhold  | Number above 2        | Will change the number of items it takes for the burger to become unstable used in the --topple command                            | --threshold 11           |
-| --maxtype     | Number                | Will set how many ingredients of one type can be in one burger, 0 for  infinite                                                    | --maxtype 2              |
-| --volume      | Number                | A number over 0 and under 100 will turn on eating sounds when a burger is finished                                                 | --volume 20              |
-|               |                       |                                                                                                                                    |                          |
-|               |                       |                                                                                                                                    |                          |
+| Command       | Expected values       | Description                                                                                                                        |
+|---------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| --show-name   | on, off               | Set on or off to hide or show burger names                                                                                         |
+| --name        | Any string of letters | Name your burger whilst in progress                                                                                                |
+| --expanded    | on, off               | Expand your burger to get a good look at all the ingredients                                                                       |
+| --auto-finish | on, off               | If set to off the burger will not complete when top bun is put on, unless owner or mod uses --finish                               |
+| --finish      |                       | Will finish the current burger and put it in the burger bar                                                                        |
+| --topple      | on, off               | When burger height reaches 20 or the height specified by --threshhold, the burger has a chance to fall over after every item added |
+| --threshhold  | Number above 2        | Will change the number of items it takes for the burger to become unstable used in the --topple command                            |
+| --maxtype     | Number                | Will set how many ingredients of one type can be in one burger, 0 for  infinite                                                    |
+| --volume      | Number                | A number over 0 and under 100 will turn on eating sounds when a burger is finished                                                 |
+|               |                       |                                                                                                                                    |
+|               |                       |                                                                                                                                    |
+
 
 ## ACKNOWLEDGEMENTS
 
